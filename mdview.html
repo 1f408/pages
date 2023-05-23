@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="referrer" content="same-origin">
+<link rel="stylesheet" type="text/css" href="/pages/www/css/base.css">
+<link rel="preload" crossorigin as="style" type="text/css" href="/pages/www/css/theme_dark1.css">
+<link id="dark1_theme" class="theme" rel="stylesheet" type="text/css" href="/pages/www/css/theme_dark1.css">
+<link rel="preload" crossorigin as="style" type="text/css" href="/pages/www/css/theme_dark2.css">
+<link id="dark2_theme" class="theme" rel="stylesheet" type="text/css" href="/pages/www/css/theme_dark2.css" disabled>
+<link rel="preload" crossorigin as="style" type="text/css" href="/pages/www/css/theme_light1.css">
+<link id="light1_theme" class="theme" rel="stylesheet" type="text/css" href="/pages/www/css/theme_light1.css" disabled>
+<link rel="preload" crossorigin as="style" type="text/css" href="/pages/www/css/theme_light2.css">
+<link id="light2_theme" class="theme" rel="stylesheet" type="text/css" href="/pages/www/css/theme_light2.css" disabled>
+<script defer src="/pages/www/lib/d3-selection@3/d3-selection.min.js"></script>
+<script defer src="/pages/www/js/theme_radio.js"></script>
+<script defer src="/pages/www/js/extlink.js"></script>
+<link rel="preload" crossorigin as="style" type="text/css" href="/pages/www/css/cls_chroma.css">
+<link rel="stylesheet" type="text/css" href="/pages/www/css/cls_chroma.css">
+<script defer src="/pages/www/js/do_aatext.js"></script>
+<link rel="preload" crossorigin as="style" type="text/css" href="/pages/www/css/cat_ui.css">
+<link rel="stylesheet" type="text/css" href="/pages/www/css/cat_ui.css">
+<script defer src="/pages/www/lib/d3-dsv@3/d3-dsv.min.js"></script>
+<script defer src="/pages/www/lib/d3-fetch@3/d3-fetch.min.js"></script>
+<script defer src="/pages/www/js/cat_ui.js"></script>
+<title>Markdown 描画アプリの解説するよ</title>
+</head>
+<body>
+<noscript><p class="color-a"><strong>数式表示、ハイライト処理、Refererヘッダ強制削除等の各種処理にJavaScriptを利用しています。</strong></p></noscript>
+<div id="style_config"></div><nav id="toc"><details>
+<summary>目次</summary>
+<ul><li><a href="#markdown-描画アプリの解説するよ">Markdown 描画アプリの解説するよ</a></li><ul><li><a href="#markdown-アプリを稼働させるファイル">Markdown アプリを稼働させるファイル</a></li><li><a href="#アプリの動作を決めるファイル">アプリの動作を決めるファイル</a></li><ul><li><a href="#markdown-の構文を選択する">Markdown の構文を選択する</a></li><li><a href="#アプリの細かな設定">アプリの細かな設定</a></li></ul><li><a href="#cats-dogs-の秘密">cats_dogs の秘密</a></li><li><a href="#最後に">最後に</a></li></ul></ul>
+</details></nav>
+<span class="location"><a href=".">Top</a> / mdview.md</span>
+</tbody>
+</table>
+</details>
+</div>
+<div id="contents" class="contents">
+<h1 id="markdown-描画アプリの解説するよ">Markdown 描画アプリの解説するよ</h1>
+<p>おはようございます。こんにちは。こんばんは。ふぇにっくちゅん です。</p>
+<p>今回は cats_dogs の数あるモジュールの中、Markdown を描画する cat_mdview について解説します。<br/>
+まず先に、本記事で参照するリンクを示しておきます。</p>
+<ul>
+<li><a href="https://github.com/1f408/cats_ample/blob/master/demo/step1/systemd/system/cats_dogs-mdview.service" rel="nofollow noreferrer">cat_mdview を稼働させるための設定ファイル</a></li>
+<li><a href="https://github.com/1f408/cats_ample/blob/master/demo/step1/etc/dogs/markdown.conf" rel="nofollow noreferrer">cat_mdview の動作を決める設定ファイル1</a></li>
+<li><a href="https://github.com/1f408/cats_ample/blob/master/demo/step1/etc/dogs/mdview.conf" rel="nofollow noreferrer">cat_mdview の動作を決める設定ファイル2</a></li>
+</ul>
+<p>これらの設定ファイルをサーバに配置しました。<br/>
+設定ファイルだけでは動かないため、cats_dogs のアプリは以下のディレクトリに配置しました。</p>
+<ul>
+<li><code>/var/cats/bin/</code></li>
+</ul>
+<p>本記事で扱うのは <code>/var/cats/bin/</code> の中に置いている、cat_mdview というファイルです。<br/>
+このファイルが、Markdown を描画するアプリです。</p>
+<p>では、本記事で扱う登場人物（ファイル）を紹介したところで、以降に解説していきます。</p>
+<p><img src="./IMGs/mdview1.png" alt="イメージ"/></p>
+<h2 id="markdown-アプリを稼働させるファイル">Markdown アプリを稼働させるファイル</h2>
+<p>Markdown アプリを稼働させるファイルは、<em>cats_dogs-mdview.service</em> という設定ファイルです。<br/>
+以下に、デモで利用したファイルを示します。</p>
+<p><img src="./IMGs/mdview2.png" alt="cats\_dogs-mdview.service"/></p>
+<p>このファイルは、アプリをどのように稼働させるかが記述されています。<br/>
+ここで、注目すべきは赤枠で囲った一行です。<br/>
+ExecStart の右には、稼働させるアプリの配置場所、稼働させるアプリが参照する設定ファイルを記述しています。<br/>
+参照する設定ファイルは、アプリがどのように動作するかが記述されたファイルです。</p>
+<p>このファイルで、アプリが稼働するようになります。</p>
+<h2 id="アプリの動作を決めるファイル">アプリの動作を決めるファイル</h2>
+<p>アプリが稼働するといっても、どのように動作するかはわかりません。<br/>
+それを決めるのが、<em>markdown.conf</em> と <em>mdview.conf</em> です。<br/>
+<em>markdown.conf</em> は、Markdown の構文を設定することができます。<br/>
+<em>mdview.conf</em> は、アプリが参照するコンテンツなどの配置先など、細かな設定を記述します。</p>
+<h3 id="markdown-の構文を選択する">Markdown の構文を選択する</h3>
+<p><em>markdown.conf</em> は、文章を書く際に利用する Markdown の構文を選択することができます。<br/>
+具体例を見たほうが早いので、以下に2種類の設定ファイルを示します。</p>
+<p><img src="./IMGs/mdview3.png" alt="markdown.conf"/></p>
+<p>この設定の違いは、Markdown の構文のうち、表（テーブル）を記述するための構文をオンもしくはオフに設定しています。<br/>
+つまり、false を設定すると、Markdown 上に記述した表が、ブラウザで整形されないということです。<br/>
+以下に、上記設定ファイルで稼働させた際の、Markdown の表示を示します。</p>
+<p><img src="./IMGs/mdview4.png" alt="table"/></p>
+<p>左には、表として描画されています。<br/>
+右は、表の構文をオフにしているため、Markdown 上に記述した文字がそのまま描画されています。<br/>
+その他の設定については「<a href="https://github.com/1f408/cats_dogs/blob/master/docs/markdown_format.md" rel="nofollow noreferrer">cats_dogsのMarkdown処理</a>」を参照ください。</p>
+<h3 id="アプリの細かな設定">アプリの細かな設定</h3>
+<p><em>mdview.conf</em> は、アプリが表示するコンテンツ（ Markdown ファイル）の配置場所など、細かな動作を指定するファイルです。<br/>
+以下に、デモで利用した設定ファイルを示します。</p>
+<p><img src="./IMGs/mdview5.png" alt="mdview.conf"/></p>
+<p>この設定ファイルは大きく、2つのパートに分かれています。<br/>
+上記の3行は、ブラウザから要求された描画命令に対して、アプリが応答するための設定です。<br/>
+プロトコルやポート、キャッシュの設定ができます。</p>
+<p>次に、以降の設定です。<br/>
+ここでは、主要な設定だけを取り上げます。</p>
+<p>まずは、<strong>document_root</strong> です。<br/>
+<strong>document_root</strong> は、Markdown ファイルが配置されている、サーバ上のディレクトリパスを記載します。<br/>
+デモでは、<code>/var/cats/var/</code> にコンテンツを配置しました。<br/>
+つまり、アプリが描画する Markdown ファイルは <code>/var/cats/var/www_md/</code> に配置しているため、上記設定ファイルにはこのパスが記述されています。</p>
+<p>つぎに、<strong>markdown_config</strong> ですが、これは先程説明した <em>markdown.conf</em> の配置場所を記述します。</p>
+<p><strong>index_name</strong> は、Web サーバのトップへアクセスした際に、デフォルトで表示するファイルを指定します。<br/>
+たとえば、アプリを <code>example.com</code> で稼働させていたとします。<br/>
+その際に、<code>http[s]://example.com</code> に対して、ファイル名を指定せずにアクセスしたときに表示されるファイルです。</p>
+<p>最後に、<strong>directory_view</strong> について説明します。<br/>
+<strong>directory_view</strong> は、ブラウザで表示される「ディレクトリ情報」の動作を決めます。</p>
+<p><img src="./IMGs/mdview6.png" alt="directory-view"/></p>
+<p>細かくは4つ（<strong>directory_view_mode</strong>、<strong>directory_view_roots</strong>、<strong>directory_view_hidden</strong>、<strong>directory_view_path_hidden</strong>）の設定が可能です。<br/>
+「ディレクトリ情報」に表示・非表示するディレクトリの設定ができます。<br/>
+細かい設定の方法は「<a href="https://github.com/1f408/cats_dogs/blob/master/docs/directory_view.md" rel="nofollow noreferrer">ディレクトリ・ビューの詳細</a>」を参照ください。</p>
+<p>その他、<em>mdview.conf</em> の設定は「<a href="https://github.com/1f408/cats_dogs/blob/master/docs/cat_mdview.md" rel="nofollow noreferrer">cat_mdviewプログラム</a>」を参照ください。</p>
+<h2 id="cats-dogs-の秘密">cats_dogs の秘密</h2>
+<p>cats_dogs は、Markdown で記述されたファイルを解析して、HTML の形式に変換しています。<br/>
+そのため、Markdown ファイルが整った状態で、ブラウザから閲覧できます。<br/>
+ここでは、その秘密を紐解きます。</p>
+<p><em>mdview.conf</em> の設定で、いくつか説明していないものがあります。<br/>
+それが、<strong>main_tmpl</strong> と <strong>tmpl_paths</strong> です。<br/>
+これは、アプリが HTML の形式で出力する際に利用する雛形です。</p>
+<p>その雛形ファイルは、<a href="https://github.com/1f408/cats_dogs/blob/master/lib/app_tmpl/mdview.tmpl" rel="nofollow noreferrer">mdview.tmpl</a> というファイルです。<br/>
+このファイルを元に、アプリは解析した Markdown ファイルを HTML に変換して出力しています。<br/>
+つまり、<em>mdview.conf</em> で設定する <strong>main_tmpl</strong> と <strong>tmpl_paths</strong> は、アプリが利用する雛形の配置場所を記述しています。<br/>
+デモで配置した、<code>/var/cats/lib/</code> の中には雛形となる HTML などの部品が入っています。</p>
+<h2 id="最後に">最後に</h2>
+<p>今回は、cats_dogs アプリの根幹である cat_mdview のモジュールについて解説しました。<br/>
+次は、cats_mdview の拡張版である cat_tmplview を<a href="./tmplview.html" rel="nofollow">解説</a>します。</p>
+</div>
+<div class="footer">
+<hr/>
+<center><a href="https://github.com/1f408/cats_dogs">Made by cats_dogs system.</a></center>
+</div>
+</body>
+</html>
