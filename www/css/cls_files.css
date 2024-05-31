@@ -17,11 +17,12 @@
 
 .files table {
   max-height: 20em;
+  max-width: none;
   overflow: auto;
+  width: 100%;
 
   font-family: var(--fonts-mono);
   border-width: 1px;
-  width: 100%;
 }
 .files table a {
   color: inherit;
@@ -37,5 +38,8 @@
 .files tr td:nth-child(2) {
 	width: max-content;
 	white-space: nowrap;
+}
+.files svg.icon {
+  padding: 0px 1px;
 }
 

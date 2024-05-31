@@ -18,6 +18,8 @@
 <link rel="preload" crossorigin as="style" type="text/css" href="/pages/www/css/cls_chroma.css">
 <link rel="stylesheet" type="text/css" href="/pages/www/css/cls_chroma.css">
 <script defer src="/pages/www/js/do_aatext.js"></script>
+<link rel="stylesheet" type="text/css" href="/pages/www/css/cls_ccopy.css">
+<script defer src="/pages/www/js/do_ccopy.js"></script>
 <link rel="preload" crossorigin as="style" type="text/css" href="/pages/www/css/cat_ui.css">
 <link rel="stylesheet" type="text/css" href="/pages/www/css/cat_ui.css">
 <script defer src="/pages/www/lib/d3-dsv@3/d3-dsv.min.js"></script>
@@ -39,36 +41,36 @@
 <div id="contents" class="contents">
 <h1 id="リッチな-markdown-描画アプリの解説するよ">リッチな Markdown 描画アプリの解説するよ</h1>
 <p>おはようございます。こんにちは。こんばんは。ふぇにっくちゅん です。</p>
-<p>今回は、前回解説した cats_mdview の拡張版である cat_tmplview を解説します。<br/>
-cat_tmplview も Markdown を描画するアプリです。<br/>
+<p>今回は、前回解説した cats_mdview の拡張版である cat_tmplview を解説します。<br />
+cat_tmplview も Markdown を描画するアプリです。<br />
 cats_mdview との大きな違いは、 Markdown ファイルの中で、表示させる内容を動的に切り替えられるという点です。</p>
-<p>本記事で扱うのは <code>/var/cats/bin/</code> の中に置いている、cat_tmplview というファイルです。<br/>
-このファイルが、拡張版の Markdown を描画するアプリです。<br/>
+<p>本記事で扱うのは <code>/var/cats/bin/</code> の中に置いている、cat_tmplview というファイルです。<br />
+このファイルが、拡張版の Markdown を描画するアプリです。<br />
 また、このアプリが参照する設定ファイルは以下のとおりです。</p>
 <ul>
-<li><a href="https://github.com/1f408/cats_ample/blob/master/demo/step2-3/systemd/system/cats_dogs-tmplview.service" rel="nofollow noreferrer">cat_tmplview を稼働させるための設定ファイル</a></li>
-<li><a href="https://github.com/1f408/cats_ample/blob/master/demo/step2-3/etc/dogs/tmplview.conf" rel="nofollow noreferrer">cat_tmplview の動作を決める設定ファイル1</a></li>
-<li><a href="https://github.com/1f408/cats_ample/blob/master/demo/step2-3/etc/dogs/usermap_config.conf" rel="nofollow noreferrer">cat_tmplview の動作を決める設定ファイル2</a></li>
+<li><a href="https://github.com/1f408/cats_ample/blob/master/demo/step2-3/systemd/system/cats_dogs-tmplview.service">cat_tmplview を稼働させるための設定ファイル</a></li>
+<li><a href="https://github.com/1f408/cats_ample/blob/master/demo/step2-3/etc/dogs/tmplview.conf">cat_tmplview の動作を決める設定ファイル1</a></li>
+<li><a href="https://github.com/1f408/cats_ample/blob/master/demo/step2-3/etc/dogs/usermap_config.conf">cat_tmplview の動作を決める設定ファイル2</a></li>
 </ul>
-<p>また、サンプルには用意していませんが、誰にどの内容を表示させるかを決める設定ファイルがあります。<br/>
-このファイルは、<em>usermap.conf</em> というファイルで、動画中に作成しました。<br/>
+<p>また、サンプルには用意していませんが、誰にどの内容を表示させるかを決める設定ファイルがあります。<br />
+このファイルは、<em>usermap.conf</em> というファイルで、動画中に作成しました。<br />
 では、本記事で扱う登場人物（ファイル）を紹介したところで、以降に解説していきます。</p>
-<p><img src="./IMGs/tmplview1.png" alt="イメージ"/></p>
+<p><img src="./IMGs/tmplview1.png" alt="イメージ" /></p>
 <h2 id="拡張版-markdown-アプリを稼働させるファイル">拡張版 Markdown アプリを稼働させるファイル</h2>
-<p>拡張版 Markdown アプリを稼働させるファイルは、<em>cats_dogs-tmplview.service</em> という設定ファイルです。<br/>
+<p>拡張版 Markdown アプリを稼働させるファイルは、<em>cats_dogs-tmplview.service</em> という設定ファイルです。<br />
 以下に、デモで利用したファイルを示します。</p>
-<p><img src="./IMGs/tmplview2.png" alt="cats\_dogs-tmplview.service"/></p>
-<p>このファイルは、アプリをどのように稼働させるかが記述されています。<br/>
-cats_mdview と同様に、<strong>ExecStart</strong> の右には、稼働させるアプリの配置場所、稼働させるアプリが参照する設定ファイルを記述しています。<br/>
+<p><img src="./IMGs/tmplview2.png" alt="cats\_dogs-tmplview.service" /></p>
+<p>このファイルは、アプリをどのように稼働させるかが記述されています。<br />
+cats_mdview と同様に、<strong>ExecStart</strong> の右には、稼働させるアプリの配置場所、稼働させるアプリが参照する設定ファイルを記述しています。<br />
 参照する設定ファイルは、アプリがどのように動作するかが記述されたファイルです。</p>
 <p>このファイルで、アプリが稼働するようになります。</p>
 <h2 id="アプリの動作を決めるファイル">アプリの動作を決めるファイル</h2>
-<p>拡張版 Markdown アプリの動作を決めるのが、<em>tmplview.conf</em> と <em>usermap.conf</em>、<em>usermap_config.conf</em> です。<br/>
-<em>tmplview.conf</em> は、 Markdown の構文を設定することができます。<br/>
-基本的には、前回説明した cat_mdview アプリと同様です。<br/>
+<p>拡張版 Markdown アプリの動作を決めるのが、<em>tmplview.conf</em> と <em>usermap.conf</em>、<em>usermap_config.conf</em> です。<br />
+<em>tmplview.conf</em> は、 Markdown の構文を設定することができます。<br />
+基本的には、前回説明した cat_mdview アプリと同様です。<br />
 後述しますが、文章を誰に表示するかを決める <em>usermap.conf</em> と <em>usermap_config.conf</em> の配置場所を指定することが主な違いです。</p>
 <h3 id="誰に表示させるか">誰に表示させるか？</h3>
-<p>今回解説するアプリは、ユーザの情報をもとに、 Markdown の表示する内容を動的に変更します。<br/>
+<p>今回解説するアプリは、ユーザの情報をもとに、 Markdown の表示する内容を動的に変更します。<br />
 たとえば、以下の登場人物がいるとします。</p>
 <ul>
 <li>userA（Aさん）</li>
@@ -76,46 +78,46 @@ cats_mdview と同様に、<strong>ExecStart</strong> の右には、稼働さ�
 <li>userC（Cさん）</li>
 </ul>
 <p>それぞれの登場人物向けに、表示を切り替える Markdown ファイルは、以下のとおりです。</p>
-<p><img src="./IMGs/tmplview7.png" alt="tmplview-sample"/></p>
-<p>これを、拡張版アプリで表示させると、以下のようになります。<br/>
+<p><img src="./IMGs/tmplview7.png" alt="tmplview-sample" /></p>
+<p>これを、拡張版アプリで表示させると、以下のようになります。<br />
 上から Aさん、Bさん、Cさんの順にブラウザの表示を示しています。</p>
-<p><img src="./IMGs/tmplview6.png" alt="browser-view"/></p>
+<p><img src="./IMGs/tmplview6.png" alt="browser-view" /></p>
 <p>アプリが動的に表示を変更する処理は、<em>usermap.conf</em> と Markdown ファイルに記述されたテンプレートの記法が連携して実現されています。</p>
 <h3 id="usermap-confと-markdown-上のテンプレートの関係">usermap.confと Markdown 上のテンプレートの関係</h3>
-<p>まず、 Markdown 上のテンプレート記法は、<a href="https://pkg.go.dev/text/template" rel="nofollow noreferrer">go の標準ライブラリ</a>に従います。<br/>
+<p>まず、 Markdown 上のテンプレート記法は、<a href="https://pkg.go.dev/text/template">go の標準ライブラリ</a>に従います。<br />
 つまり、 Markdown 上の if の右側が評価され、表示するか否かを決めています。</p>
-<p><img src="./IMGs/tmplview8.png" alt="verify"/></p>
-<p>この評価される右側の部分を解説します。<br/>
-上記の場合、「in_group（グループ名）が “userA”（というグループ）ですか？」という問いを判定しています。</p>
-<p>では、誰がどのグループに属しているのでしょうか？<br/>
+<p><img src="./IMGs/tmplview8.png" alt="verify" /></p>
+<p>この評価される右側の部分を解説します。<br />
+上記の場合、「in_group（グループ名）が &quot;userA&quot;（というグループ）ですか？」という問いを判定しています。</p>
+<p>では、誰がどのグループに属しているのでしょうか？<br />
 それを決めているのが、<em>usermap.conf</em> です。</p>
-<p><img src="./IMGs/tmplview9.png" alt="usermap-sample"/></p>
-<p><em>usermap.conf</em> は左側にユーザ名を、右側にグループ名を記述します。<br/>
+<p><img src="./IMGs/tmplview9.png" alt="usermap-sample" /></p>
+<p><em>usermap.conf</em> は左側にユーザ名を、右側にグループ名を記述します。<br />
 そのため、Aさんは userA というグループ（右側）に所属していることがわかります。</p>
-<p>※ userA というグループ名に違和感がある方は<a href="./usergroup.html" rel="nofollow">こちら</a>へどうぞ。</p>
+<p>※ userA というグループ名に違和感がある方は<a href="./usergroup.html">こちら</a>へどうぞ。</p>
 <h3 id="アカウントとグループの関係">アカウントとグループの関係</h3>
 <p>先述したアプリの動作は、以下の設定ファイルで指定します。</p>
-<p><img src="./IMGs/tmplview3.png" alt="usermap.conf"/></p>
-<p>拡張版の Markdown アプリは、このファイルを参照することで、動的に Markdown の描画を切り替えます。<br/>
-詳しいフォーマットは「<a href="https://github.com/1f408/cats_dogs/blob/master/docs/user_map.md" rel="nofollow noreferrer">user_map関連の仕様</a>」を参照ください。<br/>
+<p><img src="./IMGs/tmplview3.png" alt="usermap.conf" /></p>
+<p>拡張版の Markdown アプリは、このファイルを参照することで、動的に Markdown の描画を切り替えます。<br />
+詳しいフォーマットは「<a href="https://github.com/1f408/cats_dogs/blob/master/docs/user_map.md">user_map関連の仕様</a>」を参照ください。<br />
 また、ユーザとグループ名の文字列をチェックする設定ファイルが <em>usermap_config.conf</em> です。</p>
-<p><img src="./IMGs/tmplview4.png" alt="usermap\_config.conf"/></p>
+<p><img src="./IMGs/tmplview4.png" alt="usermap\_config.conf" /></p>
 <p>このファイルに記載された、正規表現のルールに従わないユーザ名やグループ名はエラーとすることができます。</p>
 <h3 id="アプリの細かな設定">アプリの細かな設定</h3>
-<p><em>tmplview.conf</em> は、アプリが表示するコンテンツ（ Markdown ファイル）の配置場所など、細かな動作を指定するファイルです。<br/>
-また、先述した <em>usermap.conf</em> と <em>usermap_config.conf</em> の配置場所を <strong>[authz]</strong> に記載します。<br/>
+<p><em>tmplview.conf</em> は、アプリが表示するコンテンツ（ Markdown ファイル）の配置場所など、細かな動作を指定するファイルです。<br />
+また、先述した <em>usermap.conf</em> と <em>usermap_config.conf</em> の配置場所を <strong>[authz]</strong> に記載します。<br />
 以下に、デモで利用した設定ファイルを示します。</p>
-<p><img src="./IMGs/tmplview5.png" alt="tmplview.conf"/></p>
-<p>前回の解説記事で説明した内容とかぶるため、本記事での説明は省略します。<br/>
-詳しくは、「<a href="https://github.com/1f408/cats_dogs/blob/master/docs/cat_tmplview.md" rel="nofollow noreferrer">cat_tmplviewプログラム</a>」を参照ください。</p>
+<p><img src="./IMGs/tmplview5.png" alt="tmplview.conf" /></p>
+<p>前回の解説記事で説明した内容とかぶるため、本記事での説明は省略します。<br />
+詳しくは、「<a href="https://github.com/1f408/cats_dogs/blob/master/docs/cat_tmplview.md">cat_tmplviewプログラム</a>」を参照ください。</p>
 <h2 id="さいごに">さいごに</h2>
-<p>今回は、cat_mdview アプリの拡張版である cat_tmplview のモジュールについて解説しました。<br/>
-次は、ちょっとした Web UI を作成できるアプリを<a href="./catui.html" rel="nofollow">解説</a>します。<br/>
-また、<a href="./combination.html" rel="nofollow">cat_mdview と cat_tmplview を組み合わせて使う際の挙動</a>について紹介した記事もありますので、ぜひご覧ください。</p>
+<p>今回は、cat_mdview アプリの拡張版である cat_tmplview のモジュールについて解説しました。<br />
+次は、ちょっとした Web UI を作成できるアプリを<a href="./catui.html">解説</a>します。<br />
+また、<a href="./combination.html">cat_mdview と cat_tmplview を組み合わせて使う際の挙動</a>について紹介した記事もありますので、ぜひご覧ください。</p>
 </div>
 <div class="footer">
 <hr/>
-<center><a href="https://github.com/1f408/cats_dogs">Made by cats_dogs system.</a></center>
+<center><a href="https://1f408.github.io/pages/">Top</a></center>
 </div>
 </body>
 </html>

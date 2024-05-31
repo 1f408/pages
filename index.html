@@ -18,6 +18,8 @@
 <link rel="preload" crossorigin as="style" type="text/css" href="/pages/www/css/cls_chroma.css">
 <link rel="stylesheet" type="text/css" href="/pages/www/css/cls_chroma.css">
 <script defer src="/pages/www/js/do_aatext.js"></script>
+<link rel="stylesheet" type="text/css" href="/pages/www/css/cls_ccopy.css">
+<script defer src="/pages/www/js/do_ccopy.js"></script>
 <link rel="preload" crossorigin as="style" type="text/css" href="/pages/www/css/cat_ui.css">
 <link rel="stylesheet" type="text/css" href="/pages/www/css/cat_ui.css">
 <script defer src="/pages/www/lib/d3-dsv@3/d3-dsv.min.js"></script>
@@ -39,30 +41,30 @@
 <div id="contents" class="contents">
 <h1 id="cats-dogs-の仕様書を読めるようにしよう">cats_dogs の仕様書を読めるようにしよう</h1>
 <p>おはようございます。こんにちは。こんばんは。ふぇにっくちゅん です。</p>
-<p>本記事から、<a href="https://github.com/1f408/cats_dogs" rel="nofollow noreferrer">cats_dogs の仕様書</a>を解説していきます。<br/>
-cats_dogs はカスタム性が高く、複数のモジュールに機能が分割されています。<br/>
-そのため、全体を把握することも苦労すると思います。<br/>
+<p>本記事から、<a href="https://github.com/1f408/cats_dogs">cats_dogs の仕様書</a>を解説していきます。<br />
+cats_dogs はカスタム性が高く、複数のモジュールに機能が分割されています。<br />
+そのため、全体を把握することも苦労すると思います。<br />
 ここからは、その苦労を少しでもゆるくするため、cats_dogs の 仕様書の読み方 や 主要なファイルの関係 を解説していきます。</p>
 <p>解説記事は、以下の4つのパートに分けています。</p>
 <ol>
-<li><a href="./mdview.html" rel="nofollow">Markdown 描画アプリの解説するよ</a></li>
-<li><a href="./tmplview.html" rel="nofollow">リッチな Markdown 描画アプリの解説するよ</a></li>
-<li><a href="./catui.html" rel="nofollow">簡単な Web UI の作り方を解説するよ</a></li>
-<li><a href="./catnofn.html" rel="nofollow">cats_dogs の仲間について解説するよ</a></li>
+<li><a href="./mdview.html">Markdown 描画アプリの解説するよ</a></li>
+<li><a href="./tmplview.html">リッチな Markdown 描画アプリの解説するよ</a></li>
+<li><a href="./catui.html">簡単な Web UI の作り方を解説するよ</a></li>
+<li><a href="./catnofn.html">cats_dogs の仲間について解説するよ</a></li>
 </ol>
-<p>また、これらの解説記事は <a href="https://www.youtube.com/playlist?list=PLTKODctBx8g-gmC8lrM2KeRM5N7qXCdcE" rel="nofollow noreferrer">cats_dogs の構築のデモ</a>で利用した<a href="https://github.com/1f408/cats_ample" rel="nofollow noreferrer">サンプル</a> を元に解説していきます。<br/>
+<p>また、これらの解説記事は <a href="https://www.youtube.com/playlist?list=PLTKODctBx8g-gmC8lrM2KeRM5N7qXCdcE">cats_dogs の構築のデモ</a>で利用した<a href="https://github.com/1f408/cats_ample">サンプル</a> を元に解説していきます。<br />
 そのため、まだ cats_dogs を用意できていない方は、まず先に Youtube を御覧ください。</p>
 <p>では、上述した4つの記事を読む前に、構築デモの内容をおさらいしましょう。</p>
 <h2 id="デモで構築したアプリ">デモで構築したアプリ</h2>
-<p>デモ動画の中では、仮想環境として Ubuntu Server を利用しました。<br/>
+<p>デモ動画の中では、仮想環境として Ubuntu Server を利用しました。<br />
 そのサーバの中に、cats_dogs と cats_ample をダウンロードして、ファイルを配置して、アプリを起動させました。</p>
-<p>アプリやその設定ファイル以外にも、nginx をインストールしました。<br/>
-構築したアプリの構成は、Ubuntu Server の上で、nginx を Web サーバとして稼働させました。<br/>
+<p>アプリやその設定ファイル以外にも、nginx をインストールしました。<br />
+構築したアプリの構成は、Ubuntu Server の上で、nginx を Web サーバとして稼働させました。<br />
 また、その背後に cats_dogs のアプリが稼働しているようになっています。</p>
-<p><img src="./IMGs/index1.png" alt="構成"/></p>
+<p><img src="./IMGs/index1.png" alt="構成" /></p>
 <h3 id="サーバに配置したファイル">サーバに配置したファイル</h3>
 <p>ここでは、サーバに配置した場所と配置したファイルを思い出しましょう。</p>
-<p><img src="./IMGs/index2.png" alt="配置"/></p>
+<p><img src="./IMGs/index2.png" alt="配置" /></p>
 <p>配置先のディレクトリは以下のとおりです。</p>
 <ul>
 <li><code>/etc/nginx/</code></li>
@@ -70,27 +72,27 @@ cats_dogs はカスタム性が高く、複数のモジュールに機能が分�
 <li><code>/var/cats/etc/</code></li>
 <li><code>/var/cats/var/</code></li>
 </ul>
-<p>まず、<code>/etc/nginx/</code> には、nginx の設定ファイルを配置しました。<br/>
+<p>まず、<code>/etc/nginx/</code> には、nginx の設定ファイルを配置しました。<br />
 設定ファイルには、nginx のURL のパスに関してどのように<strong>動作</strong>するかなどが記述されています。</p>
-<p>次に <code>/etc/systemd/system/</code> には、稼働させるアプリの設定ファイルを配置しました。<br/>
-ここに配置した設定ファイルには、何のアプリを<strong>稼働</strong>させるか？（nginxやcats_dogsのモジュール）や<strong>稼働</strong>させたときに使用するポート、アプリが参照する依存関係のファイルなどが記述されています。<br/>
+<p>次に <code>/etc/systemd/system/</code> には、稼働させるアプリの設定ファイルを配置しました。<br />
+ここに配置した設定ファイルには、何のアプリを<strong>稼働</strong>させるか？（nginxやcats_dogsのモジュール）や<strong>稼働</strong>させたときに使用するポート、アプリが参照する依存関係のファイルなどが記述されています。<br />
 この参照するファイルは、アプリの詳細な<strong>動作</strong>を記述したファイルです。</p>
-<p><code>/var/cats/</code> には、cats_dogs に必要なファイルが配置しました。<br/>
-<code>/var/cats/etc/</code> や <code>/var/cats/var/</code> 以外にも配置しましたが、特に説明が必要なものはこの2つです。<br/>
-<code>/var/cats/etc/</code> には、cats_dogs のアプリが<strong>動作</strong>する際の詳細な設定が記述されています。<br/>
+<p><code>/var/cats/</code> には、cats_dogs に必要なファイルが配置しました。<br />
+<code>/var/cats/etc/</code> や <code>/var/cats/var/</code> 以外にも配置しましたが、特に説明が必要なものはこの2つです。<br />
+<code>/var/cats/etc/</code> には、cats_dogs のアプリが<strong>動作</strong>する際の詳細な設定が記述されています。<br />
 <code>/var/cats/var/</code> は、アプリで閲覧する Markdown ファイルなどのコンテンツです。</p>
-<p>各設定ファイルの詳細については、後続の記事で説明します。<br/>
-ここでは、設定ファイルには大きく2つの種類があることを把握しておくと良いです。<br/>
+<p>各設定ファイルの詳細については、後続の記事で説明します。<br />
+ここでは、設定ファイルには大きく2つの種類があることを把握しておくと良いです。<br />
 一つは、アプリの稼働に必要な設定ファイル、もう一つは、アプリの動作を決めるファイルです。</p>
 <h2 id="cats-dogs-のアプリについて知ろう">cats_dogs のアプリについて知ろう</h2>
-<p>それでは、次の「<a href="./mdview.html" rel="nofollow">Markdown 描画アプリの解説するよ</a>」から、cats_dogs のアプリを紐解いていきます。<br/>
-モジュール単位に、一つずつ解説していきます。<br/>
-以降の記事では、デモで使用した<strong>動作</strong>を決める設定ファイルの解説を行っていきます。<br/>
+<p>それでは、次の「<a href="./mdview.html">Markdown 描画アプリの解説するよ</a>」から、cats_dogs のアプリを紐解いていきます。<br />
+モジュール単位に、一つずつ解説していきます。<br />
+以降の記事では、デモで使用した<strong>動作</strong>を決める設定ファイルの解説を行っていきます。<br />
 それでは、また次回の記事で会いましょう。</p>
 </div>
 <div class="footer">
 <hr/>
-<center><a href="https://github.com/1f408/cats_dogs">Made by cats_dogs system.</a></center>
+<center><a href="https://1f408.github.io/pages/">Top</a></center>
 </div>
 </body>
 </html>

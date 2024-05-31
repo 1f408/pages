@@ -18,6 +18,8 @@
 <link rel="preload" crossorigin as="style" type="text/css" href="/pages/www/css/cls_chroma.css">
 <link rel="stylesheet" type="text/css" href="/pages/www/css/cls_chroma.css">
 <script defer src="/pages/www/js/do_aatext.js"></script>
+<link rel="stylesheet" type="text/css" href="/pages/www/css/cls_ccopy.css">
+<script defer src="/pages/www/js/do_ccopy.js"></script>
 <link rel="preload" crossorigin as="style" type="text/css" href="/pages/www/css/cat_ui.css">
 <link rel="stylesheet" type="text/css" href="/pages/www/css/cat_ui.css">
 <script defer src="/pages/www/lib/d3-dsv@3/d3-dsv.min.js"></script>
@@ -39,16 +41,16 @@
 <div id="contents" class="contents">
 <h1 id="cat-mdview-と-cat-tmplview-を組み合わせて使う際の挙動">cat_mdview と cat_tmplview を組み合わせて使う際の挙動</h1>
 <p>おはようございます。こんにちは。こんばんは。ふぇにっくちゅん です。</p>
-<p>この記事までに、cat_mdview と cat_tmplview について解説しました。<br/>
-どちらも Markdown をブラウザで表示する機能が共通です。<br/>
+<p>この記事までに、cat_mdview と cat_tmplview について解説しました。<br />
+どちらも Markdown をブラウザで表示する機能が共通です。<br />
 cat_tmplview はその機能の他に、ユーザやグループ単位で表示を切り替える機能を備えています。</p>
-<p>今回は、どちらのアプリを使うべきか、どちらも使うべきか、悩む方への解説記事です。<br/>
+<p>今回は、どちらのアプリを使うべきか、どちらも使うべきか、悩む方への解説記事です。<br />
 その上で、どちらも使う場合には、nginx を意識しておく必要があるため、その点について解説します。</p>
 <h2 id="どっちを使うかはあなた次第">どっちを使うかはあなた次第</h2>
-<p>まず、cat_mdview と cat_tmplview は、Markdown ファイルをブラウザで閲覧するツールとしてはどちらを利用しても問題ありません。<br/>
-単純に利用するという意味では、表示の切り替え機能が備わっている cat_tmplview のほうが良さそうにみえます。<br/>
+<p>まず、cat_mdview と cat_tmplview は、Markdown ファイルをブラウザで閲覧するツールとしてはどちらを利用しても問題ありません。<br />
+単純に利用するという意味では、表示の切り替え機能が備わっている cat_tmplview のほうが良さそうにみえます。<br />
 良さそうに見えるのは、活用の可能性が広がりそうという甘い誘惑に心を奪われてしまったからです。</p>
-<p>たしかに、機能の差としては、cat_tmplview の場合は、動的に表示を切り替える機能を備えていることは確かです。<br/>
+<p>たしかに、機能の差としては、cat_tmplview の場合は、動的に表示を切り替える機能を備えていることは確かです。<br />
 しかし、メリットだけでなくデメリットも把握した上で、状況に合わせて利用しないと、面倒事に巻き込まれてしまいます。</p>
 <p>本節では、cat_mdview と cat_tmplview のメリットとデメリットを紹介します。</p>
 <h3 id="cat-mdview-と-cat-tmplview-の比較">cat_mdview と cat_tmplview の比較</h3>
@@ -85,60 +87,60 @@ cat_tmplview はその機能の他に、ユーザやグループ単位で表示�
 </ul>
 </li>
 </ul>
-<p>たとえば、個人でアプリを利用する場合、cat_mdview が最もコスパが良いことがわかります。<br/>
-一人で利用するため、ユーザやグループの管理をする必要がなく、動的な表示の切り替え機能は必要ないです。<br/>
+<p>たとえば、個人でアプリを利用する場合、cat_mdview が最もコスパが良いことがわかります。<br />
+一人で利用するため、ユーザやグループの管理をする必要がなく、動的な表示の切り替え機能は必要ないです。<br />
 つまり、無駄に管理コストを増やし、システムを複雑化させるメリットが、個人で利用する価値がないからです。</p>
-<p>他にも、オープンなブログサーバとして利用するケースでも同様です。<br/>
+<p>他にも、オープンなブログサーバとして利用するケースでも同様です。<br />
 静的なコンテンツが閲覧できればよいだけであれば、cat_tmlview を利用する意味はありません。</p>
-<p>次に、管理面を考えてみましょう。<br/>
-管理面と言っても、システムやアプリ、設定ファイルのことではありません。<br/>
+<p>次に、管理面を考えてみましょう。<br />
+管理面と言っても、システムやアプリ、設定ファイルのことではありません。<br />
 ドキュメントです。</p>
-<p>cats_dogs のアプリは、ドキュメントがなければ効果が発揮できないアプリです。<br/>
-つまり、cats_dogs 視点では、ドキュメントが最も大切なものになります。<br/>
-このドキュメントが、扱いにくいものになれば、長期に利用できないゴミドキュメントとなり、cats_dogs がゴミを扱う羽目になってしまいます。<br/>
+<p>cats_dogs のアプリは、ドキュメントがなければ効果が発揮できないアプリです。<br />
+つまり、cats_dogs 視点では、ドキュメントが最も大切なものになります。<br />
+このドキュメントが、扱いにくいものになれば、長期に利用できないゴミドキュメントとなり、cats_dogs がゴミを扱う羽目になってしまいます。<br />
 この cats_dogs の価値観で、以下のデメリットを考えてみましょう。</p>
 <blockquote>
 <p>テンプレートの記述により、Markdown ファイルの内容が複雑化する</p>
 </blockquote>
-<p>いかにも、Markdown ファイルのメンテナンスに苦労しそうです。<br/>
+<p>いかにも、Markdown ファイルのメンテナンスに苦労しそうです。<br />
 cat_tmplview のユーザやグループ単位で表示を切り替える機能は、便利そうに見えて、cats_dogs の価値観を揺るがす可能性の高い機能であることもわかります。</p>
-<p>ここまでは、あえて cat_tmplview の機能をあえてネガティブに見せるように紹介してきました。<br/>
+<p>ここまでは、あえて cat_tmplview の機能をあえてネガティブに見せるように紹介してきました。<br />
 甘い誘惑から目を覚ましてもらうためです。</p>
-<p>実際には、どちらのアプリが良いということは決められません。<br/>
-アプリの良さを最大限にするためには、その時の利用シーンや目的を合わせて考える必要があります。<br/>
-また、これらのアプリを最大限に活用することができれば、ドキュメントが最大限効果を発揮します。<br/>
+<p>実際には、どちらのアプリが良いということは決められません。<br />
+アプリの良さを最大限にするためには、その時の利用シーンや目的を合わせて考える必要があります。<br />
+また、これらのアプリを最大限に活用することができれば、ドキュメントが最大限効果を発揮します。<br />
 これが、cats_dogs です。</p>
 <h2 id="両方使う場合の挙動">両方使う場合の挙動</h2>
-<p>では、cat_mdview と cat_tmplview のどちらを使うか？はあなた次第ということがわかったと思います。<br/>
-ということは、両方組み合わせて利用することも良いです。<br/>
+<p>では、cat_mdview と cat_tmplview のどちらを使うか？はあなた次第ということがわかったと思います。<br />
+ということは、両方組み合わせて利用することも良いです。<br />
 本説では、組み合わせてアプリを使う場合に意識する必要があることを解説します。</p>
-<p>ここで意識する必要があるのが nginx です。<br/>
-では、アプリの設定を思い出してみましょう。<br/>
+<p>ここで意識する必要があるのが nginx です。<br />
+では、アプリの設定を思い出してみましょう。<br />
 思い出す設定は、<em>mdview.conf</em> と <em>tmplview.conf</em> ともに共通して記述する <strong>document_root</strong> のパラメータです。</p>
-<p>このパラメータは、各アプリが参照する Markdown ファイルの置き場所を示しています。<br/>
+<p>このパラメータは、各アプリが参照する Markdown ファイルの置き場所を示しています。<br />
 デモでは、<code>/var/cats/var/www_md/</code> と <code>/var/cats/var/www_tmpl/</code> に、各アプリが参照する Markdown ファイルを配置しました。</p>
-<p><img src="./IMGs/combination1.png" alt="document\_root"/></p>
-<p>では、これらのディレクトリに同じファイル名が存在したとき、どちらが優先して表示されるのでしょうか？<br/>
-これを決めているのが nginx の<a href="https://github.com/1f408/cats_ample/blob/master/demo/step2-3/etc/nginx/nginx-site.conf" rel="nofollow noreferrer">設定ファイル</a>です。</p>
-<p>ここで注目すべきなのは「location / 」で囲われた箇所です。<br/>
+<p><img src="./IMGs/combination1.png" alt="document\_root" /></p>
+<p>では、これらのディレクトリに同じファイル名が存在したとき、どちらが優先して表示されるのでしょうか？<br />
+これを決めているのが nginx の<a href="https://github.com/1f408/cats_ample/blob/master/demo/step2-3/etc/nginx/nginx-site.conf">設定ファイル</a>です。</p>
+<p>ここで注目すべきなのは「location / 」で囲われた箇所です。<br />
 その中で以下の記述を探してみてください。</p>
-<p><img src="./IMGs/combination2.png" alt="nginx-conf"/></p>
+<p><img src="./IMGs/combination2.png" alt="nginx-conf" /></p>
 <p>この箇所が、2つのアプリの優先度を決めています。
-nginx の if は上から評価されていきます。<br/>
-今回は、どちらのアプリにも同じファイル名の Markdown ファイルが存在しています。<br/>
-そのため、そのファイルを閲覧しようとした場合には、どちらの if も評価されます。<br/>
+nginx の if は上から評価されていきます。<br />
+今回は、どちらのアプリにも同じファイル名の Markdown ファイルが存在しています。<br />
+そのため、そのファイルを閲覧しようとした場合には、どちらの if も評価されます。<br />
 つまり、最後に評価されたほうが上書きされます。</p>
-<p><img src="./IMGs/combination3.png" alt="priority"/></p>
-<p>これもどちらを優先にしたほうが良いかの正解はありません。<br/>
+<p><img src="./IMGs/combination3.png" alt="priority" /></p>
+<p>これもどちらを優先にしたほうが良いかの正解はありません。<br />
 どちらを優先したいかを考えた上で、設定を決めてください。</p>
 <h2 id="さいごに">さいごに</h2>
-<p>本記事では、2つのアプリ cat_mdview と cat_tmplview について紹介し、その使い分けについて説明しました。<br/>
-ほとんど機能に差が無いように見えて、実は全く違うアプリに見えてきた人もいるのではないでしょうか？<br/>
+<p>本記事では、2つのアプリ cat_mdview と cat_tmplview について紹介し、その使い分けについて説明しました。<br />
+ほとんど機能に差が無いように見えて、実は全く違うアプリに見えてきた人もいるのではないでしょうか？<br />
 自分好みに、カスタムできるのが cats_dogs の楽しさでもあるので、みなさんも楽しんでみてください。</p>
 </div>
 <div class="footer">
 <hr/>
-<center><a href="https://github.com/1f408/cats_dogs">Made by cats_dogs system.</a></center>
+<center><a href="https://1f408.github.io/pages/">Top</a></center>
 </div>
 </body>
 </html>
