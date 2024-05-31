@@ -18,6 +18,8 @@
 <link rel="preload" crossorigin as="style" type="text/css" href="/pages/www/css/cls_chroma.css">
 <link rel="stylesheet" type="text/css" href="/pages/www/css/cls_chroma.css">
 <script defer src="/pages/www/js/do_aatext.js"></script>
+<link rel="stylesheet" type="text/css" href="/pages/www/css/cls_ccopy.css">
+<script defer src="/pages/www/js/do_ccopy.js"></script>
 <link rel="preload" crossorigin as="style" type="text/css" href="/pages/www/css/cat_ui.css">
 <link rel="stylesheet" type="text/css" href="/pages/www/css/cat_ui.css">
 <script defer src="/pages/www/lib/d3-dsv@3/d3-dsv.min.js"></script>
@@ -39,37 +41,37 @@
 <div id="contents" class="contents">
 <h1 id="markdown-ファイルの更新を受け取ろう">Markdown ファイルの更新を受け取ろう</h1>
 <p>おはようございます。こんにちは。こんばんは。ふぇにっくちゅん です。</p>
-<p>本記事では、cats_dogs アプリをカスタムするツールである cat_om について紹介します。<br/>
+<p>本記事では、cats_dogs アプリをカスタムするツールである cat_om について紹介します。<br />
 このツールは、cats_dogs アプリを利用して公開された、Markdown ファイルの更新状況を受け取ることができます。</p>
-<p><a href="https://github.com/1f408/cat_om" rel="nofollow noreferrer">cat_om</a> から、Markdown ファイルの更新状況を受け取る仕組みの概要を説明します。<br/>
-cat_om は Atom Feed を生成します。<br/>
+<p><a href="https://github.com/1f408/cat_om">cat_om</a> から、Markdown ファイルの更新状況を受け取る仕組みの概要を説明します。<br />
+cat_om は Atom Feed を生成します。<br />
 つまり、閲覧者は Feed Client を利用して更新状況を受け取ることができます。</p>
 <h2 id="cat-om-の仕組み">cat_om の仕組み</h2>
-<p>cat_om を利用する際には、Markdown ファイルが git で管理されていることが前提となります。<br/>
-つまり、cat_om は git log から Web サーバ上で管理されている Markdown ファイルの更新状況を判定します。<br/>
+<p>cat_om を利用する際には、Markdown ファイルが git で管理されていることが前提となります。<br />
+つまり、cat_om は git log から Web サーバ上で管理されている Markdown ファイルの更新状況を判定します。<br />
 そして、更新情報を Feed として表現します。</p>
-<p><img src="./IMGs/catom1.png" alt="cat\_om"/></p>
-<p>この生成された Feed を、Web サーバ上で公開します。<br/>
+<p><img src="./IMGs/catom1.png" alt="cat\_om" /></p>
+<p>この生成された Feed を、Web サーバ上で公開します。<br />
 すると、閲覧者は自身の Feed Reader アプリから更新の通知を受け取ることができます。</p>
 <h2 id="設定方法">設定方法</h2>
-<p>ここでは、設定方法を説明します。<br/>
-まずは <a href="https://github.com/1f408/cat_om" rel="nofollow noreferrer">cat_om</a> の使い方にある <em>build.sh</em> を実行します。<br/>
-作成された cat_om のバイナリファイルを、適当な位置に配置します。<br/>
+<p>ここでは、設定方法を説明します。<br />
+まずは <a href="https://github.com/1f408/cat_om">cat_om</a> の使い方にある <em>build.sh</em> を実行します。<br />
+作成された cat_om のバイナリファイルを、適当な位置に配置します。<br />
 例えば、デモの環境であれば、<code>/var/cats/bin/</code> のディレクトリに置くこととします。</p>
-<p>次に設定ファイルです。<br/>
-設定ファイルの置き場所は、<code>/var/cats/etc/</code> のディレクトリに置くとします。<br/>
-設定ファイルのサンプルは、<a href="https://github.com/1f408/cat_om/blob/master/src/catom/etc/env.toml.tmpl" rel="nofollow noreferrer">こちら</a>から確認できます。<br/>
-また、設定ファイルの説明は<a href="https://github.com/1f408/cat_om/blob/master/src/catom/README.md" rel="nofollow noreferrer">こちら</a>に記載しています。</p>
+<p>次に設定ファイルです。<br />
+設定ファイルの置き場所は、<code>/var/cats/etc/</code> のディレクトリに置くとします。<br />
+設定ファイルのサンプルは、<a href="https://github.com/1f408/cat_om/blob/master/src/catom/etc/env.toml.tmpl">こちら</a>から確認できます。<br />
+また、設定ファイルの説明は<a href="https://github.com/1f408/cat_om/blob/master/src/catom/README.md">こちら</a>に記載しています。</p>
 <p>設定ファイルの具体的な値に関しては、以降の例で説明します。</p>
-<p>あとは cat_om が作成した Feed 情報を配置する場所を作成します。<br/>
-<code>/var/cats/var/www/</code> のディレクトリの中に feed というディレクトリを作成します。<br/>
+<p>あとは cat_om が作成した Feed 情報を配置する場所を作成します。<br />
+<code>/var/cats/var/www/</code> のディレクトリの中に feed というディレクトリを作成します。<br />
 <code>/var/cats/var/www/feed/</code> の中に Feed の情報が配置されます。</p>
 <h2 id="feed-を生成するためのリポジトリを作ろう">Feed を生成するためのリポジトリを作ろう</h2>
-<p>cat_om は、Markdown ファイルの更新情報を得るために、git のリポジトリを参照します。<br/>
-動画を最後まで進めた方は、<code>/var/cats/var/</code> や <code>/var/cats/bk</code> が git によって管理されています。<br/>
+<p>cat_om は、Markdown ファイルの更新情報を得るために、git のリポジトリを参照します。<br />
+動画を最後まで進めた方は、<code>/var/cats/var/</code> や <code>/var/cats/bk</code> が git によって管理されています。<br />
 ここでは、説明が複雑にしないために <code>/var/cats/var/</code> が git で管理されていない単なるディレクトリであることとします。</p>
-<p>本記事の前提として、<code>/var/cats/var/www_md/update/</code> のディレクトリに、Markdown ファイルを更新した情報を記載したファイルを配置するとします。<br/>
-このディレクトリの中で、<code>git init</code> と実行しておいてください。<br/>
+<p>本記事の前提として、<code>/var/cats/var/www_md/update/</code> のディレクトリに、Markdown ファイルを更新した情報を記載したファイルを配置するとします。<br />
+このディレクトリの中で、<code>git init</code> と実行しておいてください。<br />
 このコマンドで、update ディレクトリ以下のファイルが git で管理されるようになります。</p>
 <h2 id="設定ファイルを修正しよう">設定ファイルを修正しよう</h2>
 <p>ここでは、2つの設定ファイルを修正します。</p>
@@ -79,60 +81,60 @@ cat_om は Atom Feed を生成します。<br/>
 </ul>
 <h3 id="cat-om-の設定ファイル">cat_om の設定ファイル</h3>
 <p>ここでは、cat_om の設定ファイルの具体例を示します。</p>
-<p><img src="./IMGs/catom2.png" alt="catom-setting"/></p>
-<p><strong>dotgit</strong> には、先程作成した git の管理情報を保持しているディレクトリのパスを設定します。<br/>
-他には、Feed の出力先や出力ファイル名を記載します。<br/>
+<p><img src="./IMGs/catom2.png" alt="catom-setting" /></p>
+<p><strong>dotgit</strong> には、先程作成した git の管理情報を保持しているディレクトリのパスを設定します。<br />
+他には、Feed の出力先や出力ファイル名を記載します。<br />
 今回は、<em>update.atom</em> として Feed 情報を出力します。</p>
-<p>また、<strong>root</strong> で指定する atom は、後に update ディレクトリの中に作成します。<br/>
-この指定により、<code>/var/cats/var/www_md/update/atom/</code> の中の Markdown ファイル以外の更新を無視します。<br/>
-取得した Feed の Entry として得られるリンク先の URL を設定する際には、<strong>urlroot</strong> を指定します。<br/>
-詳しくは <a href="https://github.com/1f408/cat_om/blob/master/src/catom/README.md" rel="nofollow noreferrer">cat_om の設定ファイルの仕様書</a>を御覧ください。</p>
+<p>また、<strong>root</strong> で指定する atom は、後に update ディレクトリの中に作成します。<br />
+この指定により、<code>/var/cats/var/www_md/update/atom/</code> の中の Markdown ファイル以外の更新を無視します。<br />
+取得した Feed の Entry として得られるリンク先の URL を設定する際には、<strong>urlroot</strong> を指定します。<br />
+詳しくは <a href="https://github.com/1f408/cat_om/blob/master/src/catom/README.md">cat_om の設定ファイルの仕様書</a>を御覧ください。</p>
 <h3 id="nginx-の設定ファイル">nginx の設定ファイル</h3>
-<p>nginx の設定ファイルの修正は、先程作成した <code>/var/cats/var/www/feed/</code> ディレクトリへアクセスできるようにするために行います。<br/>
+<p>nginx の設定ファイルの修正は、先程作成した <code>/var/cats/var/www/feed/</code> ディレクトリへアクセスできるようにするために行います。<br />
 <code>/etc/nginx/site-enabled/nginx-site.conf</code> の設定ファイルに、以下の項目を追記してください。</p>
 <pre><code>location /feed/ {
 	auth_request off;
-	add_header Cache-Control &#34;max-age=86400, no-cache&#34;;
+	add_header Cache-Control &quot;max-age=86400, no-cache&quot;;
 }
 </code></pre>
 <p>この設定ファイルの修正を反映するため、nginx を<code>systemctl restart nginx.service</code>のコマンドで再起動します。</p>
 <h2 id="実際に更新してみよう">実際に更新してみよう</h2>
-<p>では、<code>/var/cats/var/www_md/</code> の Markdown ファイルを変更したり、新たにファイルを追加してください。<br/>
+<p>では、<code>/var/cats/var/www_md/</code> の Markdown ファイルを変更したり、新たにファイルを追加してください。<br />
 たとえば、<em>catom.md</em> というファイルを作成したとします。</p>
-<p>次に、<code>/var/cats/var/www_md/update/</code> のディレクトリの中に、atom というディレクトリを作成します。<br/>
+<p>次に、<code>/var/cats/var/www_md/update/</code> のディレクトリの中に、atom というディレクトリを作成します。<br />
 そのディレクトリの中に、<em>UPDATE-1.md</em> という以下のファイルを作成します。</p>
-<pre><code><span class="chrm-line"><span class="chrm-cl"><span class="chrm-gh"># 更新情報
+<pre class="chrm-chroma"><code><span class="chrm-line"><span class="chrm-cl"><span class="chrm-gh"># 更新情報
 </span></span></span><span class="chrm-line"><span class="chrm-cl"><span class="chrm-gh"></span>
 </span></span><span class="chrm-line"><span class="chrm-cl">[<span class="chrm-nt">catom.md</span>](<span class="chrm-na">../../catom.md</span>) を追加したよ。
-</span></span></code></pre><p>ここで、<code>/var/cats/var/www_md/update/</code> の中で、<em>UPDATE-1.md</em> を更新したことを git で記録します。<br/>
+</span></span></code></pre><p>ここで、<code>/var/cats/var/www_md/update/</code> の中で、<em>UPDATE-1.md</em> を更新したことを git で記録します。<br />
 以下のコマンドを実行してください。</p>
 <ul>
 <li><code>git add atom/UPDATE-1.md</code></li>
-<li><code>git commit -m &#39;catom test&#39;</code></li>
+<li><code>git commit -m 'catom test'</code></li>
 </ul>
-<p>これで、cat_om に更新情報を伝えてあげます。<br/>
+<p>これで、cat_om に更新情報を伝えてあげます。<br />
 <code>/var/cats/bin/</code> にある cat_om を以下のコマンドで実行します。</p>
 <ul>
 <li><code>./cat_om -e /var/cats/etc/env.toml</code></li>
 </ul>
 <p>この操作によって、<code>/var/cats/var/www/feed/update.atom</code> が作成されているか確認してください。</p>
 <h3 id="クライアントの設定">クライアントの設定</h3>
-<p>では、実際に更新情報が取得できるかを確認しましょう。<br/>
+<p>では、実際に更新情報が取得できるかを確認しましょう。<br />
 皆さんのお使いの Feed Reader アプリ、クライアントで、Feed を公開した URL を登録してください。</p>
-<p><img src="./IMGs/catom3.png" alt="feed-client"/></p>
-<p>見た目は違うかもしれませんが、上記のように Feed Reader 上では表示されます。<br/>
-この通知を受け取れば、<em>UPDATE-1.md</em> のリンク先へ飛ぶことができます。<br/>
+<p><img src="./IMGs/catom3.png" alt="feed-client" /></p>
+<p>見た目は違うかもしれませんが、上記のように Feed Reader 上では表示されます。<br />
+この通知を受け取れば、<em>UPDATE-1.md</em> のリンク先へ飛ぶことができます。<br />
 今回は、サンプルであったため <em>UPDATE-1.md</em> には簡単な内容を記述しましたが、更新内容などを具体的に書くと良いです。</p>
 <h2 id="さいごに">さいごに</h2>
-<p>cat_om で Feed 情報を受け取ることができれば、ドキュメントの更新通知が得られて便利になります。<br/>
+<p>cat_om で Feed 情報を受け取ることができれば、ドキュメントの更新通知が得られて便利になります。<br />
 今回は、一度のコマンド実行により、Feed 情報を生成しましたが、cron などの定期実行を利用してください。</p>
-<p>最後の cat_fn や cat_om は、cats_dogs を更に快適に扱うための支援ツールです。<br/>
+<p>最後の cat_fn や cat_om は、cats_dogs を更に快適に扱うための支援ツールです。<br />
 他にも CSS や テンプレートなどをカスタムして、表示などをカスタムしてもいいかもしれません。</p>
 <p>それでは、また会う日まで。</p>
 </div>
 <div class="footer">
 <hr/>
-<center><a href="https://github.com/1f408/cats_dogs">Made by cats_dogs system.</a></center>
+<center><a href="https://1f408.github.io/pages/">Top</a></center>
 </div>
 </body>
 </html>

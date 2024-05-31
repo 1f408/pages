@@ -18,6 +18,8 @@
 <link rel="preload" crossorigin as="style" type="text/css" href="/pages/www/css/cls_chroma.css">
 <link rel="stylesheet" type="text/css" href="/pages/www/css/cls_chroma.css">
 <script defer src="/pages/www/js/do_aatext.js"></script>
+<link rel="stylesheet" type="text/css" href="/pages/www/css/cls_ccopy.css">
+<script defer src="/pages/www/js/do_ccopy.js"></script>
 <link rel="preload" crossorigin as="style" type="text/css" href="/pages/www/css/cat_ui.css">
 <link rel="stylesheet" type="text/css" href="/pages/www/css/cat_ui.css">
 <script defer src="/pages/www/lib/d3-dsv@3/d3-dsv.min.js"></script>
@@ -38,25 +40,25 @@
 </div>
 <div id="contents" class="contents">
 <h1 id="web-コンテンツを作ってみよう">Web コンテンツを作ってみよう</h1>
-<p>「<a href="https://eng-blog.iij.ad.jp/archives/20023" rel="nofollow noreferrer">サーバ不要（無料）なホームページの作り方 ~ cats_dogs 編 ~</a>」では、cat_mdview を用いて、簡単にホームページが作成できることを紹介しました。<br/>
-Web サーバを用意せず、代わりに GitHub Pages を活用することで、手軽にホームページが作成できることがメリットの一つです。<br/>
-また、コンテンツの生成を cat_mdview の実行だけで済んでしまうお手軽さです。<br/>
+<p>「<a href="https://eng-blog.iij.ad.jp/archives/20023">サーバ不要（無料）なホームページの作り方 ~ cats_dogs 編 ~</a>」では、cat_mdview を用いて、簡単にホームページが作成できることを紹介しました。<br />
+Web サーバを用意せず、代わりに GitHub Pages を活用することで、手軽にホームページが作成できることがメリットの一つです。<br />
+また、コンテンツの生成を cat_mdview の実行だけで済んでしまうお手軽さです。<br />
 本記事で説明する「コンテンツの作成」は、Windows や Linux、MacOS であっても構いません。</p>
 <p>ここでは、具体的にどのようにすればよいか？の方法を示すとともに、cats_dogs の機能についても解説していきます。</p>
 <h2 id="cats-dogs-の機能">cats_dogs の機能</h2>
 <p>まずは、cats_dogs の機能について解説します。</p>
-<p>cats_dogs は、Markdown で記述されたファイルを、HTML の形式に翻訳してくれるアプリでした。<br/>
+<p>cats_dogs は、Markdown で記述されたファイルを、HTML の形式に翻訳してくれるアプリでした。<br />
 この「翻訳」の機能を備えているのが、主に cat_mdview と cat_tmplview です。</p>
-<p><img src="./IMGs/static1.png" alt="static1"/></p>
+<p><img src="./IMGs/static1.png" alt="static1" /></p>
 <p>この「翻訳」には2つのモードがあります。</p>
 <ol>
 <li><strong>動的</strong>コンテンツ生成モード</li>
 <li><strong>静的</strong>コンテンツ生成モード</li>
 </ol>
 <p>雑に説明すると、静的・動的コンテンツ生成モードの違いは、コンテンツの実体を 作る or 作らない の違いです。</p>
-<p>このモードの切り替えは、それぞれのモジュールのオプションである <code>-d</code> を使います。<br/>
-<code>-d</code> を付けずに実行した場合は、動的コンテンツ生成モードです。<br/>
-つまり、以前に解説した「<a href="./mdview.html" rel="nofollow">Markdown 描画アプリの解説するよ</a>」などは動的コンテンツ生成モードです。<br/>
+<p>このモードの切り替えは、それぞれのモジュールのオプションである <code>-d</code> を使います。<br />
+<code>-d</code> を付けずに実行した場合は、動的コンテンツ生成モードです。<br />
+つまり、以前に解説した「<a href="./mdview.html">Markdown 描画アプリの解説するよ</a>」などは動的コンテンツ生成モードです。<br />
 一方で、<code>-d</code> を付けて実行した場合は、静的コンテンツ生成モードとなります。</p>
 <p>もう少し具体的に説明すると、以下のような違いがあります。</p>
 <ol>
@@ -64,45 +66,45 @@ Web サーバを用意せず、代わりに GitHub Pages を活用すること�
 <li><strong>ファイルを作成して</strong>応答する（<strong>静的</strong>コンテンツ生成モード）</li>
 </ol>
 <p>これは、クライアント（コンテンツ閲覧者）とサーバ（Web サーバ）の図を比較するとわかりやすいです。</p>
-<p><img src="./IMGs/static2.png" alt="static2"/></p>
-<p>つまり、事前にコンテンツを用意したい場合には、静的コンテンツ生成モードを用います。<br/>
+<p><img src="./IMGs/static2.png" alt="static2" /></p>
+<p>つまり、事前にコンテンツを用意したい場合には、静的コンテンツ生成モードを用います。<br />
 また、閲覧要求（リクエスト）が届いてから、コンテンツを都度生成させる場合には、動的コンテンツ生成モードを用います。</p>
-<p>モードの使い分けは、cats_dogs を活用するシステムの設計に依存します。<br/>
-一概にこれが良いとは言い切れませんので、自分たちで選んで使うことが大切です。<br/>
-今回は GitHub Pages を使うため、どうしてもコンテンツを事前に用意する必要があります。<br/>
+<p>モードの使い分けは、cats_dogs を活用するシステムの設計に依存します。<br />
+一概にこれが良いとは言い切れませんので、自分たちで選んで使うことが大切です。<br />
+今回は GitHub Pages を使うため、どうしてもコンテンツを事前に用意する必要があります。<br />
 そのため、今回紹介する方法は、静的コンテンツ生成モードを使います。</p>
 <h3 id="モードの機能">モードの機能</h3>
 <p>ここでは、動的・静的（コンテンツ生成）モードについて、具体的に説明します。</p>
-<p><code>-d</code> オプションを付けて実行すると静的モードになるのですが、これは HTML を標準出力（STDOUT）に吐き出す機能です。<br/>
-先ほどは雑に説明しましたが、<br/>
-つまり、HTML ファイルを作成するには、<code>-d</code> オプションを付けて実行した結果（STDOUT に出力された HTML）を、ファイルに書き込むことが必要です。<br/>
+<p><code>-d</code> オプションを付けて実行すると静的モードになるのですが、これは HTML を標準出力（STDOUT）に吐き出す機能です。<br />
+先ほどは雑に説明しましたが、<br />
+つまり、HTML ファイルを作成するには、<code>-d</code> オプションを付けて実行した結果（STDOUT に出力された HTML）を、ファイルに書き込むことが必要です。<br />
 例えば、以下のように cat_mdview を実行します。</p>
 <p><code>cat_mdview -d [PATH] [CONFIG] &gt; [OUT FILE]</code></p>
-<p>ここでは、細かなパラメータの説明は控えますが、大事なのは <code>&gt;</code> です。<br/>
-扱っている環境によって、別の表現もできますが、Linux では <code>&gt;</code> が「標準出力の結果をファイルに出力する」という命令になります。<br/>
+<p>ここでは、細かなパラメータの説明は控えますが、大事なのは <code>&gt;</code> です。<br />
+扱っている環境によって、別の表現もできますが、Linux では <code>&gt;</code> が「標準出力の結果をファイルに出力する」という命令になります。<br />
 このように cats_dogs を実行することで、HTML ファイルを出力することができます。</p>
 <h2 id="コンテンツの作り方">コンテンツの作り方</h2>
 <p>そろそろ、実際の使い方について具体的にしていきましょう。</p>
-<p>ここでは、すでにコンテンツにしたい Markdown ファイルを作成していることを前提とします。<br/>
+<p>ここでは、すでにコンテンツにしたい Markdown ファイルを作成していることを前提とします。<br />
 つまり、あとは HTML に変換するだけ という状態です。</p>
-<p>あとは、cat_mdview や cat_tmplview を用いて <code>-d</code> を付けて実行するだけですが、先程示したコマンドの <code>[PATH]</code> や <code>[CONFIG]</code> を埋めなければなりません。<br/>
-詳しい説明は、<a href="https://github.com/1f408/cats_dogs" rel="nofollow noreferrer">cats_dogs の仕様書</a>を読む方が良いと思います。</p>
-<p>今回は、できるだけ考えることを諦める方法を提示します。<br/>
-それが、<a href="https://github.com/1f408/cats_ample" rel="nofollow noreferrer">サンプル</a>です。<br/>
-これは<a href="https://www.youtube.com/playlist?list=PLTKODctBx8g-gmC8lrM2KeRM5N7qXCdcE" rel="nofollow noreferrer">構築支援動画</a>で使用したものも含まれていますが、<code>static</code> というフォルダに静的コンテンツ生成モードの設定ファイルなどが置いてあります。</p>
-<p>これを以下の手順でコピーしたりすると、<code>bash create.sh</code> を実行するだけで変換してくれます。<br/>
+<p>あとは、cat_mdview や cat_tmplview を用いて <code>-d</code> を付けて実行するだけですが、先程示したコマンドの <code>[PATH]</code> や <code>[CONFIG]</code> を埋めなければなりません。<br />
+詳しい説明は、<a href="https://github.com/1f408/cats_dogs">cats_dogs の仕様書</a>を読む方が良いと思います。</p>
+<p>今回は、できるだけ考えることを諦める方法を提示します。<br />
+それが、<a href="https://github.com/1f408/cats_ample">サンプル</a>です。<br />
+これは<a href="https://www.youtube.com/playlist?list=PLTKODctBx8g-gmC8lrM2KeRM5N7qXCdcE">構築支援動画</a>で使用したものも含まれていますが、<code>static</code> というフォルダに静的コンテンツ生成モードの設定ファイルなどが置いてあります。</p>
+<p>これを以下の手順でコピーしたりすると、<code>bash create.sh</code> を実行するだけで変換してくれます。<br />
 ※Windows の方は「Git Bash」を利用して実行してください。</p>
 <h3 id="a-事前準備">a) 事前準備</h3>
 <p>まずは、事前準備として以下の3つを実施してください。</p>
 <ol>
 <li>Git のインストール</li>
 <li>GitHub のアカウントの作成と Pages 用のリポジトリを作成</li>
-<li><a href="https://github.com/1f408/cats_dogs" rel="nofollow noreferrer">cats_dogs</a> のクローンと cat_mdview のビルド</li>
+<li><a href="https://github.com/1f408/cats_dogs">cats_dogs</a> のクローンと cat_mdview のビルド</li>
 </ol>
-<p>cats_dogs のビルドには、<a href="https://go.dev/doc/install" rel="nofollow noreferrer">Go のインストール</a>が必要になります。<br/>
+<p>cats_dogs のビルドには、<a href="https://go.dev/doc/install">Go のインストール</a>が必要になります。<br />
 Go のインストールができたら、cats_dogs の <code>build.sh</code> を実行することで、cat_mdview を含む全てのモジュールがビルドできます。</p>
 <h3 id="b-html-変換するための準備">b) HTML 変換するための準備</h3>
-<p>ここからは、Markdown ファイルから HTML ファイルへ変換するためのコマンドを実行するための準備を説明します。<br/>
+<p>ここからは、Markdown ファイルから HTML ファイルへ変換するためのコマンドを実行するための準備を説明します。<br />
 以下を、実施してください。</p>
 <ol>
 <li>cat_mdview もしくは cat_tmplview へパスを通す</li>
@@ -110,23 +112,23 @@ Go のインストールができたら、cats_dogs の <code>build.sh</code> �
 </ol>
 <p>1 については、ビルドして作成した cat_mdview や cat_tmplview を実行できるようにパスを通してください。</p>
 <p>2については、以下に、どこから何をコピーしてくればよいかを説明します。</p>
-<p><img src="./IMGs/static3.png" alt="static3"/></p>
+<p><img src="./IMGs/static3.png" alt="static3" /></p>
 <p>それでは、上図の左から順に説明していきます。</p>
-<p>cats_dogs と同様に GitHub から <a href="https://github.com/1f408/cats_ample" rel="nofollow noreferrer">cats_ample</a> のリポジトリを <code>git clone</code> してください。<br/>
-cats_ample のリポジトリから、<code>static</code> というフォルダを、作業を行うフォルダにコピーしてください。<br/>
+<p>cats_dogs と同様に GitHub から <a href="https://github.com/1f408/cats_ample">cats_ample</a> のリポジトリを <code>git clone</code> してください。<br />
+cats_ample のリポジトリから、<code>static</code> というフォルダを、作業を行うフォルダにコピーしてください。<br />
 この <code>static</code> というフォルダには、<code>create.sh</code>、<code>markdown.conf</code>、<code>static.toml</code> が既に格納されています。</p>
 <p>cats_dogs は 事前準備 の段階で用意しているため、<code>www</code> と <code>lib</code> のフォルダを、<code>static</code> フォルダの中にコピーしてください。</p>
-<p>ここで、<code>static.toml</code> に記述されている <code>url_lib_path</code> を編集する必要があります。<br/>
+<p>ここで、<code>static.toml</code> に記述されている <code>url_lib_path</code> を編集する必要があります。<br />
 編集を行う前に、GitHub Pages では二種類の公開方法があります。</p>
 <ol>
 <li>User もしくは organization のサイト</li>
 <li>Project 用のサイト</li>
 </ol>
-<p>この二種類の方法は、<a href="https://pages.github.com/" rel="nofollow noreferrer">用途に応じて選択</a>してください。<br/>
-どちらの方法も、Web ページを公開するということは同じなのですが、URL のパスが異なります。<br/>
-たとえば、プロジェクト用のサイトを選択した場合には、リポジトリ名と同じパスが作成され、コンテンツがそのパスの配下に配置されます。<br/>
+<p>この二種類の方法は、<a href="https://pages.github.com/">用途に応じて選択</a>してください。<br />
+どちらの方法も、Web ページを公開するということは同じなのですが、URL のパスが異なります。<br />
+たとえば、プロジェクト用のサイトを選択した場合には、リポジトリ名と同じパスが作成され、コンテンツがそのパスの配下に配置されます。<br />
 詳しくは GitHub の公式ドキュメントを参照ください。</p>
-<p>では、この二種類の選択によって、URL のパスが変わる可能性があることがわかりました。<br/>
+<p>では、この二種類の選択によって、URL のパスが変わる可能性があることがわかりました。<br />
 <code>static.toml</code> の <code>url_lib_path</code> の編集は、以下の通りに行ってください。</p>
 <ol>
 <li>User もしくは organization のサイトを選択した場合</li>
@@ -134,14 +136,14 @@ cats_ample のリポジトリから、<code>static</code> というフォルダ�
 <ul>
 <li><code>/YOUR_REPO_NAME</code>の文字列を削除する。</li>
 </ul>
-<ol>
+<ol start="2">
 <li>Project 用のサイトを選択した場合</li>
 </ol>
 <ul>
 <li><code>YOUR_REPO_NAME</code> を、GitHub Pages で使用するリポジトリの名称に変更する。</li>
 </ul>
 <p>これで、準備は完了です。</p>
-<p><code>mds</code> というフォルダも、<code>static</code> の中に書いてありますが、これはコンテンツの元になる Markdown ファイルや画像などの素材をまとめるフォルダです。<br/>
+<p><code>mds</code> というフォルダも、<code>static</code> の中に書いてありますが、これはコンテンツの元になる Markdown ファイルや画像などの素材をまとめるフォルダです。<br />
 そのため、<code>mds</code> フォルダやその中身は、皆さんが作成してください。</p>
 <h3 id="c-実行して-html-ファイルを作る">c) 実行して HTML ファイルを作る</h3>
 <p>準備ができたので、Markdown でコンテンツの元を作り終えた後の説明をします。</p>
@@ -149,40 +151,40 @@ cats_ample のリポジトリから、<code>static</code> というフォルダ�
 <ul>
 <li><code>bash create.sh</code></li>
 </ul>
-<p>これを実行すると、<code>static</code> フォルダの中に <code>htmls</code> というフォルダが出来上がります。<br/>
-この中には、Markdown ファイルを HTML に変換したファイルが作成されます。<br/>
-あとは必要なファイルを Pages 用のリポジトリにプッシュし、<a href="https://docs.github.com/ja/pages/getting-started-with-github-pages/creating-a-github-pages-site" rel="nofollow noreferrer">Pages で公開する</a>だけです。</p>
+<p>これを実行すると、<code>static</code> フォルダの中に <code>htmls</code> というフォルダが出来上がります。<br />
+この中には、Markdown ファイルを HTML に変換したファイルが作成されます。<br />
+あとは必要なファイルを Pages 用のリポジトリにプッシュし、<a href="https://docs.github.com/ja/pages/getting-started-with-github-pages/creating-a-github-pages-site">Pages で公開する</a>だけです。</p>
 <h4 id="github-pages-用のリポジトリの作り方">GitHub Pages 用のリポジトリの作り方</h4>
-<p>サンプルの設定ファイルに記述された内容は、Pages 用のリポジトリ構成を、以下のように想定しています。<br/>
+<p>サンプルの設定ファイルに記述された内容は、Pages 用のリポジトリ構成を、以下のように想定しています。<br />
 下図は Pages で公開するためのリポジトリ構成を示しています。</p>
-<p><img src="./IMGs/static4.png" alt="static4"/></p>
-<p>リポジトリに格納するものは、作成された HTML ファイルや画像などの素材です。<br/>
-また、表示に必要な CSS や JavaScript などのファイルは、<code>www</code> フォルダに入っているため、このフォルダも必要です。<br/>
-これらのファイルやフォルダを、Pages で公開するためのリポジトリへ、コピーしてください。<br/>
+<p><img src="./IMGs/static4.png" alt="static4" /></p>
+<p>リポジトリに格納するものは、作成された HTML ファイルや画像などの素材です。<br />
+また、表示に必要な CSS や JavaScript などのファイルは、<code>www</code> フォルダに入っているため、このフォルダも必要です。<br />
+これらのファイルやフォルダを、Pages で公開するためのリポジトリへ、コピーしてください。<br />
 ※ここで紹介した構成以外にする際は、<code>static.toml</code> の内容を修正する必要があります。</p>
 <h2 id="コンテンツを作成する上での注意点">コンテンツを作成する上での注意点</h2>
-<p>最後に、コンテンツを作成する上での注意点を紹介しておきます。<br/>
+<p>最後に、コンテンツを作成する上での注意点を紹介しておきます。<br />
 この注意点は、特別なものではなく当たり前のことなのですが、忘れてしまいがちなのであえて強調しておきます。</p>
-<p>Markdown ファイルを作成中に、忘れがちになってしまうのが、リンク先のファイルの拡張子です。<br/>
-コンテンツの作成は、Markdown ファイルであるため、拡張子が <code>.md</code> や <code>.markdown</code> なはずです。<br/>
+<p>Markdown ファイルを作成中に、忘れがちになってしまうのが、リンク先のファイルの拡張子です。<br />
+コンテンツの作成は、Markdown ファイルであるため、拡張子が <code>.md</code> や <code>.markdown</code> なはずです。<br />
 しかし、実際に作成されるファイルは HTML ファイルであるため、リンク先は <code>.html</code> である必要があります。</p>
-<p><img src="./IMGs/static5.png" alt="static5"/></p>
-<p>コンテンツ作成のために Markdown ファイルを書いている最中は、書くことに専念しているため、よくリンク先が <code>.md</code> のままになっていたりします。<br/>
+<p><img src="./IMGs/static5.png" alt="static5" /></p>
+<p>コンテンツ作成のために Markdown ファイルを書いている最中は、書くことに専念しているため、よくリンク先が <code>.md</code> のままになっていたりします。<br />
 リンクの確認をしながら作成したいと考えている方は、どこかのタイミングで <code>.html</code> に書き換える必要があります。</p>
 <p>書いている最中と、作成されるコンテンツの拡張子が一致しないために起こりうる事なので、紹介しておきました。</p>
 <h2 id="最後に">最後に</h2>
-<p>cats_dogs では、静的・動的に HTML を生成する機能があることを紹介しました。<br/>
-また、サンプルを使って、楽に GitHub Pages でコンテンツを公開する方法を説明しました。<br/>
-静的モードでは、リンク先に指定する拡張子に注意することが必要です。<br/>
+<p>cats_dogs では、静的・動的に HTML を生成する機能があることを紹介しました。<br />
+また、サンプルを使って、楽に GitHub Pages でコンテンツを公開する方法を説明しました。<br />
+静的モードでは、リンク先に指定する拡張子に注意することが必要です。<br />
 一方で、動的コンテンツ生成モードでは、この注意点は考慮する必要がありません。</p>
-<p>公開するまでにどのようなレイアウトになるか確認したい方は、仮想環境上に nginx などを用意するなどもできます。<br/>
-今回は GitHub Pages を活用する方法を紹介しましたが、どの場面で、どのように使うかによって、cats_dogs のモジュールを使い分けてみてください。<br/>
+<p>公開するまでにどのようなレイアウトになるか確認したい方は、仮想環境上に nginx などを用意するなどもできます。<br />
+今回は GitHub Pages を活用する方法を紹介しましたが、どの場面で、どのように使うかによって、cats_dogs のモジュールを使い分けてみてください。<br />
 そうすると、いつの間にか「猫の手を借りる」状況が出来上がるはずです。</p>
-<p><img src="./IMGs/static6.png" alt="static6"/></p>
+<p><img src="./IMGs/static6.png" alt="static6" /></p>
 </div>
 <div class="footer">
 <hr/>
-<center><a href="https://github.com/1f408/cats_dogs">Made by cats_dogs system.</a></center>
+<center><a href="https://1f408.github.io/pages/">Top</a></center>
 </div>
 </body>
 </html>

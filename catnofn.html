@@ -18,6 +18,8 @@
 <link rel="preload" crossorigin as="style" type="text/css" href="/pages/www/css/cls_chroma.css">
 <link rel="stylesheet" type="text/css" href="/pages/www/css/cls_chroma.css">
 <script defer src="/pages/www/js/do_aatext.js"></script>
+<link rel="stylesheet" type="text/css" href="/pages/www/css/cls_ccopy.css">
+<script defer src="/pages/www/js/do_ccopy.js"></script>
 <link rel="preload" crossorigin as="style" type="text/css" href="/pages/www/css/cat_ui.css">
 <link rel="stylesheet" type="text/css" href="/pages/www/css/cat_ui.css">
 <script defer src="/pages/www/lib/d3-dsv@3/d3-dsv.min.js"></script>
@@ -39,10 +41,10 @@
 <div id="contents" class="contents">
 <h1 id="cats-dogs-の仲間について解説するよ">cats_dogs の仲間について解説するよ</h1>
 <p>おはようございます。こんにちは。こんばんは。ふぇにっくちゅん です。</p>
-<p>今回は解説記事の最終回です。<br/>
-本記事では、cats_dogs アプリをカスタムするツールを紹介します。<br/>
-紹介するのは、<a href="https://github.com/1f408/cat_nofn" rel="nofollow noreferrer">cat_nofn</a> と <a href="https://github.com/1f408/cat_om" rel="nofollow noreferrer">cat_om</a> です。</p>
-<p>cat_nofn は、フォントを変更したい方向けのツールです。<br/>
+<p>今回は解説記事の最終回です。<br />
+本記事では、cats_dogs アプリをカスタムするツールを紹介します。<br />
+紹介するのは、<a href="https://github.com/1f408/cat_nofn">cat_nofn</a> と <a href="https://github.com/1f408/cat_om">cat_om</a> です。</p>
+<p>cat_nofn は、フォントを変更したい方向けのツールです。<br />
 cat_om は、cats_dogs のサーバ上に配置されている Markdown ファイルの更新を通知で得るためのツールです。</p>
 <p>まずは、フォントの変更について説明します。</p>
 <h2 id="フォントを変えよう">フォントを変えよう</h2>
@@ -51,62 +53,62 @@ cat_om は、cats_dogs のサーバ上に配置されている Markdown ファ�
 <li>フォントのデータを作成する</li>
 <li>CSS を変更する</li>
 </ol>
-<p>フォントのデータを作成するために利用するのが、cat_nofn です。<br/>
-<a href="https://github.com/1f408/cat_nofn#how-to-use" rel="nofollow noreferrer">仕様書の How to Use </a>にある通りの手順でフォントデータを作成できます。</p>
-<p>CSS は HTML の表示を整えるためのファイルです。<br/>
+<p>フォントのデータを作成するために利用するのが、cat_nofn です。<br />
+<a href="https://github.com/1f408/cat_nofn#how-to-use">仕様書の How to Use </a>にある通りの手順でフォントデータを作成できます。</p>
+<p>CSS は HTML の表示を整えるためのファイルです。<br />
 たとえば「タイトルの文章の文字を一律に 16pt の大きさに設定する」などの設定ができます。</p>
 <p>まずは、デモで利用したフォントのデータやCSSファイルが、どこに配置されているかを確認しましょう。</p>
-<p>フォントのデータは、<a href="https://github.com/1f408/cats_dogs/tree/master/www/font" rel="nofollow noreferrer">/var/cats/var/www/font/</a> のディレクトリに配置しました。<br/>
-このデータは、cat_nofn で作成できます。<br/>
-CSS ファイルは、<a href="https://github.com/1f408/cats_dogs/tree/master/www/css" rel="nofollow noreferrer">/var/cats/var/www/css/</a> のディレクトリに配置しました。</p>
+<p>フォントのデータは、<a href="https://github.com/1f408/cats_dogs/tree/master/www/font">/var/cats/var/www/font/</a> のディレクトリに配置しました。<br />
+このデータは、cat_nofn で作成できます。<br />
+CSS ファイルは、<a href="https://github.com/1f408/cats_dogs/tree/master/www/css">/var/cats/var/www/css/</a> のディレクトリに配置しました。</p>
 <p>では、仕様書だけではフォントの変更が難しい方のために、以降に手順を紹介します。</p>
 <h3 id="フォントの変更手順">フォントの変更手順</h3>
-<p>ここでは仮に DotGothic16 のフォントに変更します。<br/>
+<p>ここでは仮に DotGothic16 のフォントに変更します。<br />
 以下に、変更前と後の表示を示します。</p>
-<p><img src="./IMGs/catnofn1.png" alt="font"/></p>
-<p>まず、cats_dogs 用のフォントデータを作成するために、<a href="https://fonts.google.com/" rel="nofollow noreferrer">Google Font</a> からデータをダウンロードします。<br/>
-フォントの検索で、日本語を選択して DotGothic16 を探して、ダウンロードしてください。<br/>
-これ以降は、<a href="https://github.com/1f408/cat_nofn#how-to-use" rel="nofollow noreferrer">cat_nofn の仕様書</a>にある通りの手順を行います。</p>
+<p><img src="./IMGs/catnofn1.png" alt="font" /></p>
+<p>まず、cats_dogs 用のフォントデータを作成するために、<a href="https://fonts.google.com/">Google Font</a> からデータをダウンロードします。<br />
+フォントの検索で、日本語を選択して DotGothic16 を探して、ダウンロードしてください。<br />
+これ以降は、<a href="https://github.com/1f408/cat_nofn#how-to-use">cat_nofn の仕様書</a>にある通りの手順を行います。</p>
 <h4 id="設定ファイルの作成">設定ファイルの作成</h4>
-<p>この手順の 6 で、設定ファイルを作成する必要があります。<br/>
+<p>この手順の 6 で、設定ファイルを作成する必要があります。<br />
 今回の例では以下のようにします。</p>
-<p><img src="./IMGs/catnofn2.png" alt="font-conf"/></p>
-<p><strong>FSNAME</strong> は 3 の手順で作成したディレクトリ名を指定します。<br/>
+<p><img src="./IMGs/catnofn2.png" alt="font-conf" /></p>
+<p><strong>FSNAME</strong> は 3 の手順で作成したディレクトリ名を指定します。<br />
 <strong>LICENSE</strong> や readarray で読み込むファイルは、最初にダウンロードしたファイルを指定します。</p>
-<p><strong>FAMILY</strong> については、実際には何に設定しても大丈夫です。<br/>
-今回は Google Font のページからコピーします。<br/>
+<p><strong>FAMILY</strong> については、実際には何に設定しても大丈夫です。<br />
+今回は Google Font のページからコピーします。<br />
 Google Font のページには、CSS のサンプルを提示してくれる UI があります。</p>
-<p>DotGothic16 のページを下にスクロールし、以下のボタンを探してください。<br/>
-<img src="./IMGs/catnofn3.png" alt="select"/></p>
-<p>これをクリックした後、画面右上の「View selected families」を選択し、右のサイドバーを開きます。<br/>
+<p>DotGothic16 のページを下にスクロールし、以下のボタンを探してください。<br />
+<img src="./IMGs/catnofn3.png" alt="select" /></p>
+<p>これをクリックした後、画面右上の「View selected families」を選択し、右のサイドバーを開きます。<br />
 このサイドバーの中から「CSS rules to specify families」を探してください。</p>
-<p><img src="./IMGs/catnofn4.png" alt="sample-css"/></p>
-<p>この中に書いてある「DotGothic16」を <strong>FAMILY</strong> に記載します。<br/>
+<p><img src="./IMGs/catnofn4.png" alt="sample-css" /></p>
+<p>この中に書いてある「DotGothic16」を <strong>FAMILY</strong> に記載します。<br />
 上図の設定ファイルは省略しましたが、EOD 以降は仕様書で示しているサンプルをコピーしてください。</p>
 <h4 id="フォントデータの配置">フォントデータの配置</h4>
-<p>出来上がった cats_dogs 用のフォントデータは、cat_nofn をダウンロードしたディレクトリに dst というディレクトリが作成されているはずです。<br/>
+<p>出来上がった cats_dogs 用のフォントデータは、cat_nofn をダウンロードしたディレクトリに dst というディレクトリが作成されているはずです。<br />
 このディレクトリの中にある、CSSのファイルとフォントデータの入ったディレクトリを <code>/var/cats/var/www/font/</code> に配置してください。</p>
 <h4 id="css-の変更">CSS の変更</h4>
-<p>ここまでで、フォントデータが使える状態になりました。<br/>
+<p>ここまでで、フォントデータが使える状態になりました。<br />
 では、CSS を設定し直して、表示させてみましょう。</p>
-<p>CSS ファイルの変更は、まず base.css を変更します。<br/>
-ここでは、「@import url」と「:root」の2箇所変更します。<br/>
+<p>CSS ファイルの変更は、まず base.css を変更します。<br />
+ここでは、「@import url」と「:root」の2箇所変更します。<br />
 「@import url」は、フォントデータを配置したディレクトリのパスを指定します。</p>
-<p>「:root」は、「–fonts-sans:」や「–fonts-serif」などが記載された箇所に、「font-family: ‘DotGothic16’, sans-serif;」を追記します。<br/>
+<p>「:root」は、「--fonts-sans:」や「--fonts-serif」などが記載された箇所に、「font-family: 'DotGothic16', sans-serif;」を追記します。<br />
 これは、先程の Google Font のサンプルからコピーしたものです。</p>
-<p>あとは、好きな箇所のフォントを DotGothic16 に変更します。<br/>
+<p>あとは、好きな箇所のフォントを DotGothic16 に変更します。<br />
 今回の例では、すべてのフォントを DotGothic16 に変更します。</p>
-<p>まず、<code>/var/cats/var/www/css/</code> に存在するすべての CSS ファイルから「–fonts-」という箇所を見つけます。<br/>
-この記述を「–font-family」に変更すればフォントが変更できます。</p>
+<p>まず、<code>/var/cats/var/www/css/</code> に存在するすべての CSS ファイルから「--fonts-」という箇所を見つけます。<br />
+この記述を「--font-family」に変更すればフォントが変更できます。</p>
 <p>最後にフォントがすべて変更されたかをブラウザで確認してください。</p>
 <h2 id="markdown-ファイルの更新を受け取ろう">Markdown ファイルの更新を受け取ろう</h2>
-<p>本記事では、フォントの変更を支援してくれる cat_nofn について紹介しました。<br/>
-つぎは、Markdown ファイルの更新を受け取るための支援ツール cat_om を紹介します。<br/>
-すこし記事が長くなったので、cat_om の解説は <a href="./catom.html" rel="nofollow">こちら</a> で紹介します。</p>
+<p>本記事では、フォントの変更を支援してくれる cat_nofn について紹介しました。<br />
+つぎは、Markdown ファイルの更新を受け取るための支援ツール cat_om を紹介します。<br />
+すこし記事が長くなったので、cat_om の解説は <a href="./catom.html">こちら</a> で紹介します。</p>
 </div>
 <div class="footer">
 <hr/>
-<center><a href="https://github.com/1f408/cats_dogs">Made by cats_dogs system.</a></center>
+<center><a href="https://1f408.github.io/pages/">Top</a></center>
 </div>
 </body>
 </html>

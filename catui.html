@@ -18,6 +18,8 @@
 <link rel="preload" crossorigin as="style" type="text/css" href="/pages/www/css/cls_chroma.css">
 <link rel="stylesheet" type="text/css" href="/pages/www/css/cls_chroma.css">
 <script defer src="/pages/www/js/do_aatext.js"></script>
+<link rel="stylesheet" type="text/css" href="/pages/www/css/cls_ccopy.css">
+<script defer src="/pages/www/js/do_ccopy.js"></script>
 <link rel="preload" crossorigin as="style" type="text/css" href="/pages/www/css/cat_ui.css">
 <link rel="stylesheet" type="text/css" href="/pages/www/css/cat_ui.css">
 <script defer src="/pages/www/lib/d3-dsv@3/d3-dsv.min.js"></script>
@@ -39,9 +41,9 @@
 <div id="contents" class="contents">
 <h1 id="簡単な-web-ui-の作り方を解説するよ">簡単な Web UI の作り方を解説するよ</h1>
 <p>おはようございます。こんにちは。こんばんは。ふぇにっくちゅん です。</p>
-<p>今回は cats_dogs で簡単な Web UI を作成できる Cat UI の機能について解説します。<br/>
-Cat UI は cat_multi_getexec と呼ぶモジュールで、デモ動画では <code>/var/cats/bin/</code> に配置しています。<br/>
-この cat_multi_getexec は、<a href="./tmplview.html" rel="nofollow">前回の記事で紹介</a>した cat_tmplview（拡張版 Markdown アプリ）と連携して動作します。</p>
+<p>今回は cats_dogs で簡単な Web UI を作成できる Cat UI の機能について解説します。<br />
+Cat UI は cat_multi_getexec と呼ぶモジュールで、デモ動画では <code>/var/cats/bin/</code> に配置しています。<br />
+この cat_multi_getexec は、<a href="./tmplview.html">前回の記事で紹介</a>した cat_tmplview（拡張版 Markdown アプリ）と連携して動作します。</p>
 <p>Cat UI を作成する際の手順は、以下のとおりです。</p>
 <ol>
 <li>入力と出力、処理内容を決める</li>
@@ -49,7 +51,7 @@ Cat UI は cat_multi_getexec と呼ぶモジュールで、デモ動画では <c
 <li>Markdown ファイルに、UI の画面を記述する</li>
 <li>設定ファイルを作成する</li>
 </ol>
-<p>本記事では、簡単なサンプルを例に Cat UI の作成方法について解説します。<br/>
+<p>本記事では、簡単なサンプルを例に Cat UI の作成方法について解説します。<br />
 この Cat UI は設定ファイルが多いため、まずは全体像を把握していきましょう。</p>
 <h2 id="設定ファイルの関係">設定ファイルの関係</h2>
 <p>まず、設定ファイルは大きく3種類に分類できます。</p>
@@ -58,8 +60,8 @@ Cat UI は cat_multi_getexec と呼ぶモジュールで、デモ動画では <c
 <li>アプリの動作を決める設定ファイル</li>
 <li>UI の動作を決める設定ファイル</li>
 </ul>
-<p>今回は、2種類のアプリが登場します。<br/>
-cat_tmplview と cat_multi_getexec です。<br/>
+<p>今回は、2種類のアプリが登場します。<br />
+cat_tmplview と cat_multi_getexec です。<br />
 Cat UI を作成する場合、Markdown 上に UI の表示を記述するため、cat_tmplview を必要とします。</p>
 <p>UI の動作を決める設定ファイルは、2種類存在します。</p>
 <ul>
@@ -67,107 +69,107 @@ Cat UI を作成する場合、Markdown 上に UI の表示を記述するため
 <li>UI の細かな表示などを決める設定ファイル</li>
 </ul>
 <p>これらのファイルは、それぞれ拡張子が .api と .ui となります。</p>
-<p>ここで、cat_tmplview と cat_multi_getexec の役割を説明しておきます。<br/>
-cat_tmplview は、Markdown を HTML へ変換することで、ブラウザで文章を閲覧できるアプリです。<br/>
+<p>ここで、cat_tmplview と cat_multi_getexec の役割を説明しておきます。<br />
+cat_tmplview は、Markdown を HTML へ変換することで、ブラウザで文章を閲覧できるアプリです。<br />
 Cat UI と連携する場合には、cat_multi_getexec の入力を受け取ったり、処理結果を表示するための描画部分も担当します。</p>
 <p>cat_multi_getexec は、UI から受け取った入力をもとに、処理を実行し、その結果を返すことを担当します。</p>
-<p><img src="./IMGs/catui1.png" alt="tmplview-summary"/></p>
-<p><img src="./IMGs/catui2.png" alt="getexec-summary"/></p>
+<p><img src="./IMGs/catui1.png" alt="tmplview-summary" /></p>
+<p><img src="./IMGs/catui2.png" alt="getexec-summary" /></p>
 <h3 id="cat-tmplview-の動き">cat_tmplview の動き</h3>
-<p>UI の表示を担う cat_tmplview は、先述した設定ファイルだけでは動きません。<br/>
+<p>UI の表示を担う cat_tmplview は、先述した設定ファイルだけでは動きません。<br />
 ここでは、UI を実現するためのファイルを紹介します。</p>
-<p>cat_tmplview は、Markdown ファイルから UI を表示させるためのファイルが2つあります。<br/>
-UI を簡単に実現するためのテンプレートファイルとして、<em>cat_ui.tmpl</em> があります。<br/>
+<p>cat_tmplview は、Markdown ファイルから UI を表示させるためのファイルが2つあります。<br />
+UI を簡単に実現するためのテンプレートファイルとして、<em>cat_ui.tmpl</em> があります。<br />
 また、HTML の動的な処理を補助するための <em>cat_ui.js</em> という JavaScript があります。</p>
-<p>cat_tmplview を少し思い出してみると、ユーザやグループ単位で表示内容を動的に切り替える機能があります。<br/>
-これを実現するために、Markdown ファイルに go のテンプレートの記述が必要でした。<br/>
-UI を表示する際にも、Markdown ファイルに UI 用の記述を行います。<br/>
+<p>cat_tmplview を少し思い出してみると、ユーザやグループ単位で表示内容を動的に切り替える機能があります。<br />
+これを実現するために、Markdown ファイルに go のテンプレートの記述が必要でした。<br />
+UI を表示する際にも、Markdown ファイルに UI 用の記述を行います。<br />
 その際に、読み込まれる UI 用のテンプレートファイルが、<em>cat_ui.tmpl</em> です。</p>
-<p><em>cat_ui.js</em> は、UI 上の動的な処理を実現するためのファイルです。<br/>
-このファイルは、<em>cat_ui.tmpl</em> で描画された内容を、支援するためのものです。<br/>
+<p><em>cat_ui.js</em> は、UI 上の動的な処理を実現するためのファイルです。<br />
+このファイルは、<em>cat_ui.tmpl</em> で描画された内容を、支援するためのものです。<br />
 つまり、具体的な処理を行うスクリプトファイルと、テンプレートで描画されたコンテンツの仲介役となります。</p>
-<p><img src="./IMGs/catui3.png" alt="motion"/></p>
-<p><a href="https://github.com/1f408/cats_dogs/blob/master/lib/app_tmpl/cat_ui.tmpl" rel="nofollow noreferrer">cat_ui.tmpl</a> と <a href="https://github.com/1f408/cats_dogs/blob/master/www/js/cat_ui.js" rel="nofollow noreferrer">cat_ui.js</a> はどちらも cats_dogs に内包されています。</p>
-<p>もう少し詳細を知りたい方は「<a href="https://github.com/1f408/cats_dogs/blob/master/docs/cat_ui.md#%E5%8B%95%E4%BD%9C%E6%A6%82%E7%95%A5" rel="nofollow noreferrer">Cat UI の動作概略</a>」を御覧ください。</p>
+<p><img src="./IMGs/catui3.png" alt="motion" /></p>
+<p><a href="https://github.com/1f408/cats_dogs/blob/master/lib/app_tmpl/cat_ui.tmpl">cat_ui.tmpl</a> と <a href="https://github.com/1f408/cats_dogs/blob/master/www/js/cat_ui.js">cat_ui.js</a> はどちらも cats_dogs に内包されています。</p>
+<p>もう少し詳細を知りたい方は「<a href="https://github.com/1f408/cats_dogs/blob/master/docs/cat_ui.md#%E5%8B%95%E4%BD%9C%E6%A6%82%E7%95%A5">Cat UI の動作概略</a>」を御覧ください。</p>
 <h2 id="アプリの設定ファイル">アプリの設定ファイル</h2>
-<p>ここからは、設定ファイルについて解説していきます。<br/>
+<p>ここからは、設定ファイルについて解説していきます。<br />
 描画を担う cat_tmplview と、処理を担う cat_multi_getexec のパートに分けて説明します。</p>
 <h3 id="描画の設定">描画の設定</h3>
-<p>cat_tmplview は、前回の記事で紹介しているため、ここでは UI に関係する箇所だけ説明します。<br/>
+<p>cat_tmplview は、前回の記事で紹介しているため、ここでは UI に関係する箇所だけ説明します。<br />
 まず、動作を決める設定ファイル <em>tmplview.conf</em> の、UI に関する箇所は以下のとおりです。</p>
-<p><img src="./IMGs/catui4.png" alt="ui-tmplview"/></p>
-<p>デモで利用した設定ファイルは、<a href="https://github.com/1f408/cats_ample/blob/master/demo/step4/etc/dogs/tmplview.conf" rel="nofollow noreferrer">こちら</a>です。</p>
-<p>この記述により、描画に利用する UI の設定ファイルやその拡張子、UI を作成するためのテンプレートファイル名を指定します。<br/>
+<p><img src="./IMGs/catui4.png" alt="ui-tmplview" /></p>
+<p>デモで利用した設定ファイルは、<a href="https://github.com/1f408/cats_ample/blob/master/demo/step4/etc/dogs/tmplview.conf">こちら</a>です。</p>
+<p>この記述により、描画に利用する UI の設定ファイルやその拡張子、UI を作成するためのテンプレートファイル名を指定します。<br />
 また、テンプレートファイルの置き場所は、以下のパートで指定します。</p>
-<p><img src="./IMGs/catui5.png" alt="tmpl-path"/></p>
-<p>次に、具体的な UI の設定ファイルを説明します。<br/>
+<p><img src="./IMGs/catui5.png" alt="tmpl-path" /></p>
+<p>次に、具体的な UI の設定ファイルを説明します。<br />
 まず、デモでは <code>/var/cats/var/api/</code> のディレクトリの中に、拡張子が <code>.ui</code> のファイルを配置しました。</p>
-<p>たとえば、<a href="https://github.com/1f408/cats_ample/blob/master/demo/step4/client/api/sub/txt.ui" rel="nofollow noreferrer">txt.ui</a> を見てみましょう。</p>
-<p><img src="./IMGs/catui6.png" alt="ui1"/></p>
+<p>たとえば、<a href="https://github.com/1f408/cats_ample/blob/master/demo/step4/client/api/sub/txt.ui">txt.ui</a> を見てみましょう。</p>
+<p><img src="./IMGs/catui6.png" alt="ui1" /></p>
 <p>説明の前に、以下に UI の完成図を示します。</p>
-<p><img src="./IMGs/catui7.png" alt="ui2"/></p>
-<p>まず、UI の裏で処理されるスクリプトの引数が2つあるということを前提とします。<br/>
-その上で url には、スクリプトを実行するリクエストの URL を決めます。<br/>
+<p><img src="./IMGs/catui7.png" alt="ui2" /></p>
+<p>まず、UI の裏で処理されるスクリプトの引数が2つあるということを前提とします。<br />
+その上で url には、スクリプトを実行するリクエストの URL を決めます。<br />
 つまり、url に記述されたパスとクエリを要求されると、処理が実行されるようになります。</p>
-<p>次に、<strong>[[var]]</strong> パートです。<br/>
-ここでは、UI 上に表示する入力ボックスなどを決めることができます。<br/>
-この例のスクリプトを実行するには、2つの引数が必要でした。<br/>
+<p>次に、<strong>[[var]]</strong> パートです。<br />
+ここでは、UI 上に表示する入力ボックスなどを決めることができます。<br />
+この例のスクリプトを実行するには、2つの引数が必要でした。<br />
 そのため、2つの引数を閲覧者から得るために、設定しています。</p>
-<p>また、この UI を表示するための Markdown ファイルには <code>{{cat_ui &#34;txt&#34;}}</code> を記述します。<br/>
+<p>また、この UI を表示するための Markdown ファイルには <code>{{cat_ui &quot;txt&quot;}}</code> を記述します。<br />
 この記述を行ったページに、上記の UI が表示されます。</p>
-<p>詳しい説明は cat_tmplview の仕様書に記載しています。<br/>
-「<a href="https://github.com/1f408/cats_dogs/blob/master/docs/cat_tmplview.md#ui%E8%A8%AD%E5%AE%9A%E3%83%95%E3%82%A1%E3%82%A4%E3%83%ABcat_ui%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%E9%96%A2%E6%95%B0%E3%81%A7%E5%88%A9%E7%94%A8" rel="nofollow noreferrer">UI設定ファイル(cat_uiテンプレート関数で利用)</a>」を御覧ください。</p>
+<p>詳しい説明は cat_tmplview の仕様書に記載しています。<br />
+「<a href="https://github.com/1f408/cats_dogs/blob/master/docs/cat_tmplview.md#ui%E8%A8%AD%E5%AE%9A%E3%83%95%E3%82%A1%E3%82%A4%E3%83%ABcat_ui%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%E9%96%A2%E6%95%B0%E3%81%A7%E5%88%A9%E7%94%A8">UI設定ファイル(cat_uiテンプレート関数で利用)</a>」を御覧ください。</p>
 <h3 id="処理の設定">処理の設定</h3>
-<p>ここからは、具体的な処理を実現する cat_multi_getexec の設定ファイルについて説明します。<br/>
+<p>ここからは、具体的な処理を実現する cat_multi_getexec の設定ファイルについて説明します。<br />
 このアプリが参照する設定ファイルは以下のとおりです。</p>
 <ul>
-<li><a href="https://github.com/1f408/cats_ample/blob/master/demo/step4/systemd/system/cats_dogs-multi_get.service" rel="nofollow noreferrer">cat_multi_getexec を稼働させるための設定ファイル</a></li>
-<li><a href="https://github.com/1f408/cats_ample/blob/master/demo/step4/etc/dogs/multi_get.conf" rel="nofollow noreferrer">cat_multi_getexec の動作を決める設定ファイル</a></li>
+<li><a href="https://github.com/1f408/cats_ample/blob/master/demo/step4/systemd/system/cats_dogs-multi_get.service">cat_multi_getexec を稼働させるための設定ファイル</a></li>
+<li><a href="https://github.com/1f408/cats_ample/blob/master/demo/step4/etc/dogs/multi_get.conf">cat_multi_getexec の動作を決める設定ファイル</a></li>
 </ul>
 <h4 id="処理を実行するアプリを稼働させるファイル">処理を実行するアプリを稼働させるファイル</h4>
-<p>処理を実行するアプリを稼働させるファイルは、<em>cats_dogs-multi_get.service</em> という設定ファイルです。<br/>
+<p>処理を実行するアプリを稼働させるファイルは、<em>cats_dogs-multi_get.service</em> という設定ファイルです。<br />
 以下に、デモで利用したファイルを示します。</p>
-<p><img src="./IMGs/catui8.png" alt="cats\_dogs-multi\_get-service"/></p>
-<p>このファイルは、アプリをどのように稼働させるかが記述されています。<br/>
-これまで紹介したアプリと同様に、<strong>ExecStart</strong> の右には、稼働させるアプリの配置場所、稼働させるアプリが参照する設定ファイルを記述しています。<br/>
+<p><img src="./IMGs/catui8.png" alt="cats\_dogs-multi\_get-service" /></p>
+<p>このファイルは、アプリをどのように稼働させるかが記述されています。<br />
+これまで紹介したアプリと同様に、<strong>ExecStart</strong> の右には、稼働させるアプリの配置場所、稼働させるアプリが参照する設定ファイルを記述しています。<br />
 参照する設定ファイルは、アプリがどのように動作するかが記述されたファイルです。</p>
 <p>このファイルで、アプリが稼働するようになります。</p>
 <h4 id="アプリの動作を決めるファイル">アプリの動作を決めるファイル</h4>
 <p>処理を実行するアプリの動作を決めるのが <em>multi_get.conf</em> の設定ファイルです。</p>
-<p><img src="./IMGs/catui9.png" alt="multi\_get-conf"/></p>
-<p>ここでは、実行するスクリプトの実行権を決めるために <em>usermap.conf</em> と <em>usermap-config.conf</em> を指定します。<br/>
-また、api の拡張子を持つファイルの配置場所を設定します。<br/>
-具体的な処理は、スクリプトに依存するため、<em>multi_get.conf</em> では具体的には設定しません。<br/>
+<p><img src="./IMGs/catui9.png" alt="multi\_get-conf" /></p>
+<p>ここでは、実行するスクリプトの実行権を決めるために <em>usermap.conf</em> と <em>usermap-config.conf</em> を指定します。<br />
+また、api の拡張子を持つファイルの配置場所を設定します。<br />
+具体的な処理は、スクリプトに依存するため、<em>multi_get.conf</em> では具体的には設定しません。<br />
 代わりに、api の拡張子のファイルをスクリプトごとに作成することで動作を決めます。</p>
-<p>次に、具体的な処理を決める設定ファイルを説明します。<br/>
+<p>次に、具体的な処理を決める設定ファイルを説明します。<br />
 まず、デモでは <code>/var/cats/var/api/</code> のディレクトリの中に、拡張子が <code>.api</code> のファイルを配置しました。</p>
-<p>たとえば、<a href="https://github.com/1f408/cats_ample/blob/master/demo/step4/client/api/sub/txt.api" rel="nofollow noreferrer">txt.api</a> を見てみましょう。</p>
-<p><img src="./IMGs/catui10.png" alt="api"/></p>
-<p>この設定ファイルでは、実行するスクリプトの配置場所、引数、実行権限の指定を行います。<br/>
+<p>たとえば、<a href="https://github.com/1f408/cats_ample/blob/master/demo/step4/client/api/sub/txt.api">txt.api</a> を見てみましょう。</p>
+<p><img src="./IMGs/catui10.png" alt="api" /></p>
+<p>この設定ファイルでは、実行するスクリプトの配置場所、引数、実行権限の指定を行います。<br />
 引数のデフォルト値も設定することができます。</p>
-<p>ここでは、スクリプトの説明はしませんが、参考までに <em>txt.api</em> で実行されるスクリプトは<a href="https://github.com/1f408/cats_ample/blob/master/demo/step4/client/api/sub/txt.sh" rel="nofollow noreferrer">こちら</a>を御覧ください。</p>
-<p>また、設定ファイルの詳細は<a href="https://github.com/1f408/cats_dogs/blob/master/docs/cat_multi_getexec.md#api%E8%A8%AD%E5%AE%9A%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB" rel="nofollow noreferrer">こちら</a>を御覧ください。</p>
+<p>ここでは、スクリプトの説明はしませんが、参考までに <em>txt.api</em> で実行されるスクリプトは<a href="https://github.com/1f408/cats_ample/blob/master/demo/step4/client/api/sub/txt.sh">こちら</a>を御覧ください。</p>
+<p>また、設定ファイルの詳細は<a href="https://github.com/1f408/cats_dogs/blob/master/docs/cat_multi_getexec.md#api%E8%A8%AD%E5%AE%9A%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB">こちら</a>を御覧ください。</p>
 <h3 id="スクリプト作成を支援してくれるツール">スクリプト作成を支援してくれるツール</h3>
-<p>最後に、Cat UI の作成を支援してくれる仲間を紹介します。<br/>
+<p>最後に、Cat UI の作成を支援してくれる仲間を紹介します。<br />
 実は、すでに紹介した <em>cat_ui.js</em> も支援してくれる仲間です。</p>
-<p>ここで紹介するのは、実際に処理を実現するスクリプトの作成を支援してくれるツールです。<br/>
-それらは、<a href="https://github.com/1f408/cats_dogs/blob/master/docs/cat_printcsv.md" rel="nofollow noreferrer">cat_printcsv</a>、<a href="https://github.com/1f408/cats_dogs/blob/master/docs/cat_args2csv.md" rel="nofollow noreferrer">cat_args2csv</a>、<a href="https://github.com/1f408/cats_dogs/blob/master/docs/cat_verify_type.md" rel="nofollow noreferrer">cat_verify_type</a> の3つです。<br/>
+<p>ここで紹介するのは、実際に処理を実現するスクリプトの作成を支援してくれるツールです。<br />
+それらは、<a href="https://github.com/1f408/cats_dogs/blob/master/docs/cat_printcsv.md">cat_printcsv</a>、<a href="https://github.com/1f408/cats_dogs/blob/master/docs/cat_args2csv.md">cat_args2csv</a>、<a href="https://github.com/1f408/cats_dogs/blob/master/docs/cat_verify_type.md">cat_verify_type</a> の3つです。<br />
 CSV を扱う場合やネットワーク情報を扱う場合に、必要があれば利用ください。</p>
 <h2 id="cat-multi-getexec-の仲間">cat_multi_getexec の仲間</h2>
-<p>別に UI は必要なく、単なる API として利用したい場合は、<a href="https://github.com/1f408/cats_dogs/blob/master/docs/cat_getexec.md" rel="nofollow noreferrer">cat_getexec</a> も用意しています。<br/>
+<p>別に UI は必要なく、単なる API として利用したい場合は、<a href="https://github.com/1f408/cats_dogs/blob/master/docs/cat_getexec.md">cat_getexec</a> も用意しています。<br />
 このアプリは cat_multi_getexec の仲間です。</p>
-<p>設定ファイルについては、これまで説明した内容に近いため、皆さん自身で仕様書を読み進められると思います。<br/>
-cat_getexec は、UI が必要ではないため、cat_tmplview とは連携が必要ありません。<br/>
+<p>設定ファイルについては、これまで説明した内容に近いため、皆さん自身で仕様書を読み進められると思います。<br />
+cat_getexec は、UI が必要ではないため、cat_tmplview とは連携が必要ありません。<br />
 そのため、このアプリだけで API が実現できるようなシンプルな作りになっています。</p>
 <p>こちらも利用する場合には、API ごとにアプリを稼働させて使ってください。</p>
 <h2 id="さいごに">さいごに</h2>
-<p>今回解説した Cat UI は、これまで解説してきたアプリよりも複雑だったかもしれません。<br/>
+<p>今回解説した Cat UI は、これまで解説してきたアプリよりも複雑だったかもしれません。<br />
 ここまで読み進められたということは、仕様書も読みやすくなっていると思います。</p>
-<p>最終回は「<a href="./catnofn.html" rel="nofollow">cats_dogs の仲間について解説するよ</a>」で、フォントの変更や Markdown ファイルの更新状況を取得する方法について、解説します。</p>
+<p>最終回は「<a href="./catnofn.html">cats_dogs の仲間について解説するよ</a>」で、フォントの変更や Markdown ファイルの更新状況を取得する方法について、解説します。</p>
 </div>
 <div class="footer">
 <hr/>
-<center><a href="https://github.com/1f408/cats_dogs">Made by cats_dogs system.</a></center>
+<center><a href="https://1f408.github.io/pages/">Top</a></center>
 </div>
 </body>
 </html>
